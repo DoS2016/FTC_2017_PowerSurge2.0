@@ -6,6 +6,7 @@
 package com.lasarobotics.tests.camera;
 
 import org.lasarobotics.vision.android.Cameras;
+import org.lasarobotics.vision.detection.objects.Rectangle;
 import org.lasarobotics.vision.ftc.resq.Beacon;
 import org.lasarobotics.vision.image.Drawing;
 import org.lasarobotics.vision.opmode.TestableVisionOpMode;
@@ -60,7 +61,7 @@ public class CameraTestVisionOpMode extends TestableVisionOpMode {
          * Set color tolerances
          * 0 is default, -1 is minimum and 1 is maximum tolerance
          */
-        beacon.setColorToleranceRed(0);
+        beacon.setColorToleranceRed(-1);
         beacon.setColorToleranceBlue(0);
 
         /**
@@ -120,14 +121,14 @@ public class CameraTestVisionOpMode extends TestableVisionOpMode {
          * during init(). This happens when another app is using OpenCV simulataneously.
          * Doing so should only be necessary in testing apps
          **/
-        //beacon.setAnalysisBounds(new Rectangle(new Point(width / 2, height/2), width - 200, 200));
+        beacon.setAnalysisBounds(new Rectangle(new Point(width, height), width, 500));
 
         //Run all extensions, then get matrices
         rgba = super.frame(rgba, gray);
         gray = Color.rapidConvertRGBAToGRAY(rgba);
 
         //Display a Grid-system every 50 pixels
-        /*final int dist = 50;
+        final int dist = 50;
         for (int x = width/2 + 50; x<width; x+=dist)
             Drawing.drawLine(rgba, new Point(x, 0), new Point(x, height), new ColorRGBA("#88888822"), 1);
         for (int x = width/2 - 50; x>=0; x-=dist)
@@ -137,7 +138,7 @@ public class CameraTestVisionOpMode extends TestableVisionOpMode {
             Drawing.drawLine(rgba, new Point(0, y), new Point(width, y), new ColorRGBA("#88888822"), 1);
         for (int y = height/2 - 50; y>=0; y-=dist)
             Drawing.drawLine(rgba, new Point(0, y), new Point(width, y), new ColorRGBA("#88888822"), 1);
-        Drawing.drawLine(rgba, new Point(0, height/2), new Point(width, height/2), new ColorRGBA("#ffffff44"), 1);*/
+        Drawing.drawLine(rgba, new Point(0, height/2), new Point(width, height/2), new ColorRGBA("#ffffff44"), 1);
 
         //Get beacon analysis
         Beacon.BeaconAnalysis beaconAnalysis = beacon.getAnalysis();

@@ -1,7 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.lasarobotics.vision.android.Cameras;
 import org.lasarobotics.vision.detection.objects.Rectangle;
 import org.lasarobotics.vision.ftc.resq.Beacon;
@@ -12,136 +26,182 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
 
-/**
- * Linear Vision Sample
- * <p/>
- * Use this in a typical linear op mode. A LinearVisionOpMode allows using
- * Vision Extensions, which do a lot of processing for you. Just enable the extension
- * and set its options to your preference!
- * <p/>
- * Please note that the LinearVisionOpMode is specially designed to target a particular
- * version of the FTC Robot Controller app. Changes to the app may break the LinearVisionOpMode.
- * Should this happen, open up an issue on GitHub. :)
- */
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.UNKNOWN;
+
 @Autonomous(name = "visionAuto")
 public class LinearVisionSample extends LinearVisionOpMode {
 
-    //Frame counter
+    BNO055IMU imu;
+
+    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+    Acceleration gravity  = imu.getGravity();
+
+    OpenGLMatrix lastLocation = null;
+    VuforiaLocalizer vuforia;
+
     int frameCount = 0;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        //Wait for vision to initialize - this should be the first thing you do
-        waitForVisionStart();
+    int jewelLRedCounter = 0;
+    int jewelLBlueCounter = 0;
+    int jewelColor = 0;
+    static int NO_COLOR = 0;
+    static int RED_BLUE = 1;
+    static int BLUE_RED = 2;
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
 
-        /**
-         * Set the camera used for detection
-         * PRIMARY = Front-facing, larger camera
-         * SECONDARY = Screen-facing, "selfie" camera :D
-         **/
-        this.setCamera(Cameras.PRIMARY);
+    RelicRecoveryVuMark Target = UNKNOWN;
 
-        /**
-         * Set the frame size
-         * Larger = sometimes more accurate, but also much slower
-         * After this method runs, it will set the "width" and "height" of the frame
-         **/
-        this.setFrameSize(new Size(900, 900));
+        @Override
+        public void runOpMode() throws InterruptedException {
+            leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+            rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+            //Wait for vision to initialize - this should be the first thing you do
+            waitForVisionStart();
 
-        /**
-         * Enable extensions. Use what you need.
-         * If you turn on the BEACON extension, it's best to turn on ROTATION too.
-         */
-        enableExtension(Extensions.BEACON);         //Beacon detection
-        enableExtension(Extensions.ROTATION);       //Automatic screen rotation correction
-        enableExtension(Extensions.CAMERA_CONTROL); //Manual camera control
+        //***********VUFORIA CODE*************
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        /**
-         * Set the beacon analysis method
-         * Try them all and see what works!
-         */
-        beacon.setAnalysisMethod(Beacon.AnalysisMethod.FAST);
+            parameters.vuforiaLicenseKey = " ARP7n43/////AAAAGdGoThGE8k4YowI9EbuCTToRW5VvobacImha3msx7xPnmPUDGiTKRUxcagzehV6BEX4iIdhDpwbWDbKUxKCDvITmAR3E13KNy0uBnk61DpT4IrxJRDbLs3GkrxwSbrCK088QC2XY02KmMxY9kKMSNvg0HuNtB8IuFyo3wgIdkQhZOsDUpKM210oaIpRzyiz/XPez6hWYlfKJEUSGicvyhj1oR6++ey9mk6zKQDxRnSNJJqr6qTkdzs2aj0dV+7xZRpbFVTPO9Q4i955vzjdmS7Z6+FYVIqy8PGFKyT5YejHg/EYG+AJ4VHggr/+zS8YDZDgPpC0xgvTIh7uDz0idF7u3Jj0o68aPCCnqoGtaogTd ";
 
-        /**
-         * Set color tolerances
-         * 0 is default, -1 is minimum and 1 is maximum tolerance
-         */
-        beacon.setColorToleranceRed(-1);
-        beacon.setColorToleranceBlue(-1);
+            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+            this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-        /**
-         * Set analysis boundary
-         * You should comment this to use the entire screen and uncomment only if
-         * you want faster analysis at the cost of not using the entire frame.
-         * This is also particularly useful if you know approximately where the beacon is
-         * as this will eliminate parts of the frame which may cause problems
-         * This will not work on some methods, such as COMPLEX
-         **/
-        beacon.setAnalysisBounds(new Rectangle(new Point(width / 2, height / 2), width - 200, 200));
+            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+            VuforiaTrackable relicTemplate = relicTrackables.get(0);
+            relicTemplate.setName("relicVuMarkTemplate");
 
-        /**
-         * Set the rotation parameters of the screen
-         * If colors are being flipped or output appears consistently incorrect, try changing these.
-         *
-         * First, tell the extension whether you are using a secondary camera
-         * (or in some devices, a front-facing camera that reverses some colors).
-         *
-         * It's a good idea to disable global auto rotate in Android settings. You can do this
-         * by calling disableAutoRotate() or enableAutoRotate().
-         *
-         * It's also a good idea to force the phone into a specific orientation (or auto rotate) by
-         * calling either setActivityOrientationAutoRotate() or setActivityOrientationFixed(). If
-         * you don't, the camera reader may have problems reading the current orientation.
-         */
-        rotation.setIsUsingSecondaryCamera(false);
-        rotation.disableAutoRotate();
-        rotation.setActivityOrientationFixed(ScreenOrientation.PORTRAIT);
+            relicTrackables.activate();
 
-        /**
-         * Set camera control extension preferences
-         *
-         * Enabling manual settings will improve analysis rate and may lead to better results under
-         * tested conditions. If the environment changes, expect to change these values.
-         */
-        cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
-        cameraControl.setAutoExposureCompensation();
+            while (!opModeIsActive()) {
+                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                if (vuMark == RIGHT) {
+                    telemetry.addData("VuMark", "%s visible", "RIGHT");
+                    Target = RIGHT;
+                } else if (vuMark == LEFT) {
+                    telemetry.addData("VuMark", "%s visible", "LEFT");
+                    Target = LEFT;
+                } else if (vuMark == CENTER) {
+                    telemetry.addData("VuMark", "%s visible", "CENTER");
+                    Target = CENTER;
+                } else {
+                    telemetry.addData("VuMark", "%s visible", "UNKNOWN");
+                }
 
-        //Wait for the match to begin
-        waitForStart();
-
-        //Main loop
-        //Camera frames and OpenCV analysis will be delivered to this method as quickly as possible
-        //This loop will exit once the opmode is closed
-        while (opModeIsActive()) {
-            //Log a few things
-            telemetry.addData("Beacon Color", beacon.getAnalysis().getColorString());
-            telemetry.addData("Beacon Center", beacon.getAnalysis().getLocationString());
-            telemetry.addData("Beacon Confidence", beacon.getAnalysis().getConfidenceString());
-            telemetry.addData("Beacon Buttons", beacon.getAnalysis().getButtonString());
-            telemetry.addData("Screen Rotation", rotation.getScreenOrientationActual());
-            telemetry.addData("Frame Rate", fps.getFPSString() + " FPS");
-            telemetry.addData("Frame Size", "Width: " + width + " Height: " + height);
-            telemetry.addData("Frame Counter", frameCount);
-
-            //You can access the most recent frame data and modify it here using getFrameRgba() or getFrameGray()
-            //Vision will run asynchronously (parallel) to any user code so your programs won't hang
-            //You can use hasNewFrame() to test whether vision processed a new frame
-            //Once you copy the frame, discard it immediately with discardFrame()
-            if (hasNewFrame()) {
-                //Get the frame
-                Mat rgba = getFrameRgba();
-                Mat gray = getFrameGray();
-
-                //Discard the current frame to allow for the next one to render
-                discardFrame();
-
-                //Do all of your custom frame processing here
-                //For this demo, let's just add to a frame counter
-                frameCount++;
             }
 
-            //Wait for a hardware cycle to allow other processes to run
-            waitOneFullHardwareCycle();
-        }
+
+
+
+            this.setCamera(Cameras.PRIMARY);
+
+            this.setFrameSize(new Size(900, 900));
+
+
+            enableExtension(Extensions.BEACON);         //Beacon detection
+            enableExtension(Extensions.ROTATION);       //Automatic screen rotation correction
+            enableExtension(Extensions.CAMERA_CONTROL); //Manual camera control
+
+
+            beacon.setAnalysisMethod(Beacon.AnalysisMethod.FAST);
+
+            beacon.setAnalysisBounds(new Rectangle(new Point(width, height), width, 500));
+
+            /**
+             * Set color tolerances
+             * 0 is default, -1 is minimum and 1 is maximum tolerance
+             */
+            beacon.setColorToleranceRed(-1);
+            beacon.setColorToleranceBlue(-1);
+
+            rotation.setIsUsingSecondaryCamera(false);
+            rotation.disableAutoRotate();
+            rotation.setActivityOrientationFixed(ScreenOrientation.PORTRAIT);
+
+
+            cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
+            cameraControl.setAutoExposureCompensation();
+
+            waitForStart();
+
+            while (opModeIsActive() && ((jewelLRedCounter < 200) && (jewelLBlueCounter < 200))) {
+                //Log a few things
+ /*               telemetry.addData("Beacon Color", beacon.getAnalysis().getColorString());
+                telemetry.addData("Beacon Center", beacon.getAnalysis().getLocationString());
+                telemetry.addData("Beacon Confidence", beacon.getAnalysis().getConfidenceString());
+                telemetry.addData("Beacon Buttons", beacon.getAnalysis().getButtonString());
+                telemetry.addData("Screen Rotation", rotation.getScreenOrientationActual());
+                telemetry.addData("Frame Rate", fps.getFPSString() + " FPS");
+                telemetry.addData("Frame Size", "Width: " + width + " Height: " + height);
+                telemetry.addData("Frame Counter", frameCount);*/
+
+                if (beacon.getAnalysis().isLeftRed()){
+                    jewelLBlueCounter = 0;
+                    jewelLRedCounter++;
+                    jewelColor = RED_BLUE;
+                    telemetry.addData("Beacon Color", "RED THEN BLUE");
+                    telemetry.addData("counterR", jewelLRedCounter);
+
+                }
+                else if (beacon.getAnalysis().isRightRed()) {
+                    jewelLRedCounter = 0;
+                    jewelLBlueCounter++;
+                    jewelColor = BLUE_RED;
+                    telemetry.addData("Beacon Color", "BLUE THEN RED");
+                    telemetry.addData("counterB", jewelLBlueCounter);
+
+
+                }
+                else {
+                    telemetry.addData("Beacon Color", "NOT VISIBLE");
+                }
+
+                if (hasNewFrame()) {
+                    Mat rgba = getFrameRgba();
+                    Mat gray = getFrameGray();
+
+                    discardFrame();
+
+                    frameCount++;
+                }
+
+                waitOneFullHardwareCycle();
+            }
+            Auto_Movement autoMovement = new Auto_Movement();
+            autoMovement.moveToRight(leftDrive, rightDrive);
+
+            BNO055IMU.Parameters parametersGyro = new BNO055IMU.Parameters();
+            parametersGyro.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+            parametersGyro.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parametersGyro.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+            parametersGyro.loggingEnabled      = true;
+            parametersGyro.loggingTag          = "IMU";
+            parametersGyro.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+            imu.initialize(parametersGyro);
+            autoMovement.composeTelemetry(angles, gravity);
+
+            /*            for (int i = 0; i < 3000; i = rightDrive.getCurrentPosition()){
+                leftDrive.setPower(0.2);
+                rightDrive.setPower(0.2);
+            }
+            leftDrive.setPower(0);
+            rightDrive.setPower(0);*/
+
+
+
+            //if(Target == RIGHT) {
+                //if ((jewelColor == BLUE_RED) || (jewelColor == RED_BLUE)) {
+                  //  telemetry.addData("Method", "Is Broken");
+                  //  autoMovement.moveToRight(leftDrive, rightDrive);
+                //}
+
+//            }
     }
 }
