@@ -29,25 +29,19 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-
-@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@TeleOp(name="TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
     {
-    // Declare OpMode members.
+        // Declare OpMode members.
+
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
@@ -55,12 +49,15 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor liftDrive = null;
     private Servo leftServo = null;
     private Servo rightServo = null;
+    private Servo armLeftServo = null;
+    private Servo armRightServo = null;
 
-    /*
+        /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
+
         telemetry.addData("Status", "Initialized");
 
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
@@ -70,6 +67,8 @@ public class BasicOpMode_Iterative extends OpMode
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
         rightServo = hardwareMap.get(Servo.class, "right_servo");
+        armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
+        armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -85,6 +84,11 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void init_loop() {
+
+        // Set up the parameters with which we will use our IMU. Note that integration
+        // algorithm here just reports accelerations to the logcat log; it doesn't actually
+        // provide positional information.
+
     }
 
     /*
@@ -110,7 +114,56 @@ public class BasicOpMode_Iterative extends OpMode
 
         centerDrive.setPower(gamepad1.left_stick_x * 0.8);
 
-        liftDrive.setPower(gamepad2.left_stick_y * 1);
+        liftDrive.setPower(gamepad2.left_stick_y);
+        telemetry.addData("encoder", liftDrive.getCurrentPosition());
+
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+/*        if (gamepad2.a){
+            liftDrive.setTargetPosition(0);
+            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftDrive.setPower(0.7);
+            while (liftDrive.isBusy()){
+
+            }
+            liftDrive.setPower(0);
+            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        else if (gamepad2.x){
+            liftDrive.setTargetPosition(-3300);
+            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftDrive.setPower(0.7);
+            while (liftDrive.isBusy()){
+
+            }
+            liftDrive.setPower(0);
+            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        else if (gamepad2.b){
+            liftDrive.setTargetPosition(-7000);
+            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftDrive.setPower(0.7);
+            while (liftDrive.isBusy()){
+
+            }
+            liftDrive.setPower(0);
+            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }*/
+/*        if (gamepad2.a){
+            armLeftServo.setPosition(0.95);
+        }
+        else
+            armLeftServo.setPosition(0.05);
+
+        if (gamepad2.x){
+            armRightServo.setPosition(0.05);
+        }
+        else{
+            armLeftServo.setPosition(0.95);
+        }*/
+
 
         if (gamepad1.a) {
             leftServo.setPosition(0);
@@ -122,16 +175,11 @@ public class BasicOpMode_Iterative extends OpMode
             }
 
 
-
         // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
-
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
     @Override
     public void stop() {
     }
+
 
 }

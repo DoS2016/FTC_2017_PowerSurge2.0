@@ -4,15 +4,17 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -26,20 +28,21 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Size;
 
+import java.util.Locale;
+
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.UNKNOWN;
 
-@Autonomous(name = "visionAuto")
-public class LinearVisionSample extends LinearVisionOpMode {
+@Autonomous(name = "AutoBlueNoMovement")
+public class AutoBlueNoMovement extends LinearVisionOpMode {
 
     BNO055IMU imu;
 
-    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-    Acceleration gravity  = imu.getGravity();
-
+    // State used for updating telemetry
+    //Acceleration gravity  = imu.getGravity();
+//****** Initialize vuforia vision code.
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
 
@@ -51,8 +54,15 @@ public class LinearVisionSample extends LinearVisionOpMode {
     static int NO_COLOR = 0;
     static int RED_BLUE = 1;
     static int BLUE_RED = 2;
+
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private DcMotor centerDrive = null;
+    private DcMotor liftDrive = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
+    private Servo armServo = null;
+
 
     RelicRecoveryVuMark Target = UNKNOWN;
 
@@ -60,6 +70,13 @@ public class LinearVisionSample extends LinearVisionOpMode {
         public void runOpMode() throws InterruptedException {
             leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
             rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+            armServo = hardwareMap.get(Servo.class, "arm_servo_blue");
+            centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
+            liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
+            leftServo = hardwareMap.get(Servo.class, "left_servo");
+            rightServo = hardwareMap.get(Servo.class, "right_servo");
+
+
             //Wait for vision to initialize - this should be the first thing you do
             waitForVisionStart();
 
@@ -172,36 +189,92 @@ public class LinearVisionSample extends LinearVisionOpMode {
 
                 waitOneFullHardwareCycle();
             }
-            Auto_Movement autoMovement = new Auto_Movement();
-            autoMovement.moveToRight(leftDrive, rightDrive);
 
-            BNO055IMU.Parameters parametersGyro = new BNO055IMU.Parameters();
-            parametersGyro.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-            parametersGyro.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-            parametersGyro.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-            parametersGyro.loggingEnabled      = true;
-            parametersGyro.loggingTag          = "IMU";
-            parametersGyro.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+            armServo.setPosition(0.05);
 
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
-            imu.initialize(parametersGyro);
-            autoMovement.composeTelemetry(angles, gravity);
+            initGyro();
 
-            /*            for (int i = 0; i < 3000; i = rightDrive.getCurrentPosition()){
-                leftDrive.setPower(0.2);
-                rightDrive.setPower(0.2);
+            Thread.sleep(500);
+
+            leftServo.setPosition(1);
+            rightServo.setPosition(0);
+            Thread.sleep(500);
+            if (jewelColor == BLUE_RED){
+                turnDegrees(-90, leftDrive, rightDrive);
+
+
             }
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);*/
+            else if (jewelColor == RED_BLUE){
+                turnDegrees(90, leftDrive, rightDrive);
+            }
+
+
+            leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            armServo.setPosition(0.8);
 
 
 
-            //if(Target == RIGHT) {
-                //if ((jewelColor == BLUE_RED) || (jewelColor == RED_BLUE)) {
-                  //  telemetry.addData("Method", "Is Broken");
-                  //  autoMovement.moveToRight(leftDrive, rightDrive);
-                //}
-
-//            }
     }
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
+    public void turnDegrees(double degrees, DcMotor leftDrive, DcMotor rightDrive){
+
+        double error = 2;
+        double degreesIMU = 0;
+        while (opModeIsActive() && (error < -1 || error > 1)) {
+
+            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
+            error = degrees - degreesIMU;
+
+            if (degrees > 0) {
+                leftDrive.setPower(-((error) / 400 + 0.05));
+                rightDrive.setPower(((error) / 400) + 0.05);
+                telemetry.addData("ERROR", error);
+                telemetry.addData("IMUDEGREES", degreesIMU);
+                telemetry.update();
+            }
+            else if (degrees < 0) {
+                leftDrive.setPower(-((error) / 400 - 0.05));
+                rightDrive.setPower(((error) / 400) - 0.05);
+                telemetry.addData("ERROR", error);
+                telemetry.addData("IMUDEGREES", degreesIMU);
+                telemetry.update();
+            }
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+    public void initGyro(){
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
+        // Set up our telemetry dashboard
+        //composeTelemetry();
+
+        // Wait until we're told to go
+        // Start the logging of measured acceleration
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+    }
+
 }

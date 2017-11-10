@@ -97,7 +97,7 @@ public class SensorBNO055IMU extends LinearOpMode
         imu.initialize(parameters);
 
         // Set up our telemetry dashboard
-        composeTelemetry();
+        //composeTelemetry();
 
         // Wait until we're told to go
         waitForStart();
