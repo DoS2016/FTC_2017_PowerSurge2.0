@@ -257,6 +257,8 @@ public class AutoBlueMovement extends LinearVisionOpMode {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
+
+
     public void initGyro(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -279,6 +281,8 @@ public class AutoBlueMovement extends LinearVisionOpMode {
         // Start the logging of measured acceleration
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
     }
+
+
 
 }
 
