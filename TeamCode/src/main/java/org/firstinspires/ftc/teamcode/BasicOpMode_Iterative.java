@@ -39,8 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
-    {
-        // Declare OpMode members.
+{
+    // Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
@@ -52,9 +52,9 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
 
-        /*
-     * Code to run ONCE when the driver hits INIT
-     */
+    /*
+ * Code to run ONCE when the driver hits INIT
+ */
     @Override
     public void init() {
         // TODO: 11/11/2017 add  code to set the jewelservos to up at the beggining of teleOp
@@ -104,8 +104,8 @@ public class BasicOpMode_Iterative extends OpMode
         //forward/backward
         //Bumpers for speedboost/slow mode
         if (gamepad1.left_bumper){
-        leftDrive.setPower(-gamepad1.left_stick_y * 1);
-        rightDrive.setPower(gamepad1.left_stick_y * 1);
+            leftDrive.setPower(-gamepad1.left_stick_y * 1);
+            rightDrive.setPower(gamepad1.left_stick_y * 1);
         }
         else if (gamepad1.right_bumper){
             leftDrive.setPower(-gamepad1.left_stick_y * 0.4);
@@ -139,15 +139,16 @@ public class BasicOpMode_Iterative extends OpMode
             rightServo.setPosition(1);
         }
         else if (gamepad1.x){
-                leftServo.setPosition(1);
-                rightServo.setPosition(0);
-            }
+            leftServo.setPosition(1);
+            rightServo.setPosition(0);
+        }
 
 
         // Show the elapsed game time and wheel power.
     }
     @Override
     public void stop() {
+
     }
 
 
