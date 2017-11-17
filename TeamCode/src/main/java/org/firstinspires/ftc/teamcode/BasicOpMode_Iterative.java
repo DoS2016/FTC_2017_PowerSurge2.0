@@ -96,6 +96,9 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void start() {
         runtime.reset();
+
+        armLeftServo.setPosition(0.8);
+        armRightServo.setPosition(0.1);
     }
 
     /*
@@ -104,8 +107,6 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void loop() {
 
-        armLeftServo.setPosition(0.8);
-        armRightServo.setPosition(0.1);
 
         if(gamepad2.y) {
             grabNabberLeft.setPower(100);
