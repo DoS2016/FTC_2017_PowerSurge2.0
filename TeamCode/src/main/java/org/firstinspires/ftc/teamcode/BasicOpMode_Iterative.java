@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="TeleOp Basic")
+@TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
     {
@@ -47,12 +47,14 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
     private DcMotor centerDrive = null;
     private DcMotor liftDrive = null;
-    private Servo leftServo = null;
+        private DcMotor grabNabberLeft = null;
+        private DcMotor grabNabberRight = null;
+        private Servo leftServo = null;
     private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
 
-        /*
+            /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
@@ -62,6 +64,8 @@ public class BasicOpMode_Iterative extends OpMode
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
+        grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
+        grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
@@ -102,6 +106,13 @@ public class BasicOpMode_Iterative extends OpMode
 
         armLeftServo.setPosition(0.8);
         armRightServo.setPosition(0.1);
+
+        if(gamepad2.y) {
+            grabNabberLeft.setPower(100);
+            grabNabberRight.setPower(-100);
+        }
+
+        if (gamepad2.a) {
             armLeftServo.setPosition(0.8);
             armRightServo.setPosition(0.1);
         }
