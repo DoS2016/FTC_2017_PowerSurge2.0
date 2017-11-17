@@ -57,9 +57,9 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void init() {
-
+        // TODO: 11/11/2017 add  code to set the jewelservos to up at the beggining of teleOp
         telemetry.addData("Status", "Initialized");
-
+        //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
@@ -85,10 +85,6 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void init_loop() {
 
-        // Set up the parameters with which we will use our IMU. Note that integration
-        // algorithm here just reports accelerations to the logcat log; it doesn't actually
-        // provide positional information.
-
     }
 
     /*
@@ -106,7 +102,7 @@ public class BasicOpMode_Iterative extends OpMode
     public void loop() {
 
         //forward/backward
-
+        //Bumpers for speedboost/slow mode
         if (gamepad1.left_bumper){
         leftDrive.setPower(-gamepad1.left_stick_y * 1);
         rightDrive.setPower(gamepad1.left_stick_y * 1);
@@ -119,63 +115,25 @@ public class BasicOpMode_Iterative extends OpMode
             leftDrive.setPower(-gamepad1.left_stick_y * 0.8);
             rightDrive.setPower(gamepad1.left_stick_y * 0.8);
         }
+
         //turn
         leftDrive.setPower(gamepad1.right_stick_x * 0.8);
         rightDrive.setPower(gamepad1.right_stick_x * 0.8);
 
+        //slide drive
         centerDrive.setPower(gamepad1.left_stick_x * 0.8);
 
+        //elevator code
         liftDrive.setPower(gamepad2.left_stick_y);
         telemetry.addData("encoder", liftDrive.getCurrentPosition());
 
+        //if nothing is happening stop the drives
         leftDrive.setPower(0);
         rightDrive.setPower(0);
+        //brake the elevator
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-/*        if (gamepad2.a){
-            liftDrive.setTargetPosition(0);
-            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftDrive.setPower(0.7);
-            while (liftDrive.isBusy()){
-
-            }
-            liftDrive.setPower(0);
-            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-        else if (gamepad2.x){
-            liftDrive.setTargetPosition(-3300);
-            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftDrive.setPower(0.7);
-            while (liftDrive.isBusy()){
-
-            }
-            liftDrive.setPower(0);
-            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-        else if (gamepad2.b){
-            liftDrive.setTargetPosition(-7000);
-            liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftDrive.setPower(0.7);
-            while (liftDrive.isBusy()){
-
-            }
-            liftDrive.setPower(0);
-            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }*/
-/*        if (gamepad2.a){
-            armLeftServo.setPosition(0.95);
-        }
-        else
-            armLeftServo.setPosition(0.05);
-
-        if (gamepad2.x){
-            armRightServo.setPosition(0.05);
-        }
-        else{
-            armLeftServo.setPosition(0.95);
-        }*/
-
-
+        //code to grab a block
         if (gamepad1.a) {
             leftServo.setPosition(0);
             rightServo.setPosition(1);

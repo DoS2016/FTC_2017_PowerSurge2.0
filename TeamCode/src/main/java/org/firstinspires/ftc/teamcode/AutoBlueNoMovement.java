@@ -237,15 +237,15 @@ public class AutoBlueNoMovement extends LinearVisionOpMode {
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error) / 400 + 0.05));
-                rightDrive.setPower(((error) / 400) + 0.05);
+                leftDrive.setPower(-((error) / 350 + 0.1));
+                rightDrive.setPower(((error) / 350) + 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             }
             else if (degrees < 0) {
-                leftDrive.setPower(-((error) / 400 - 0.05));
-                rightDrive.setPower(((error) / 400) - 0.05);
+                leftDrive.setPower(-((error) / 350 - 0.1));
+                rightDrive.setPower(((error) / 350) - 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();

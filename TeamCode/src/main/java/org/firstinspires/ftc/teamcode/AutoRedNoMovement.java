@@ -19,13 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.lasarobotics.vision.android.Cameras;
-import org.lasarobotics.vision.detection.objects.Rectangle;
 import org.lasarobotics.vision.ftc.resq.Beacon;
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 import org.lasarobotics.vision.opmode.extensions.CameraControlExtension;
 import org.lasarobotics.vision.util.ScreenOrientation;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
 import org.opencv.core.Size;
 
 import java.util.Locale;
@@ -127,7 +125,7 @@ public class AutoRedNoMovement extends LinearVisionOpMode {
 
         beacon.setAnalysisMethod(Beacon.AnalysisMethod.FAST);
 
-        beacon.setAnalysisBounds(new Rectangle(new Point(width, height), width, 500));
+        //beacon.setAnalysisBounds(new Rectangle(new Point(width, height), width, 500));
 
         /**
          * Set color tolerances
@@ -138,7 +136,7 @@ public class AutoRedNoMovement extends LinearVisionOpMode {
 
         rotation.setIsUsingSecondaryCamera(false);
         rotation.disableAutoRotate();
-        rotation.setActivityOrientationFixed(ScreenOrientation.PORTRAIT);
+        rotation.setActivityOrientationFixed(ScreenOrientation.LANDSCAPE);
 
 
         cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
@@ -190,15 +188,16 @@ public class AutoRedNoMovement extends LinearVisionOpMode {
             waitOneFullHardwareCycle();
         }
 
-        armServo.setPosition(0.05);
+        armServo.setPosition(0.9);
+        Thread.sleep(500);
 
         initGyro();
 
-        Thread.sleep(500);
 
         leftServo.setPosition(1);
         rightServo.setPosition(0);
         Thread.sleep(500);
+
         if (jewelColor == BLUE_RED){
             turnDegrees(-90, leftDrive, rightDrive);
 
@@ -212,7 +211,7 @@ public class AutoRedNoMovement extends LinearVisionOpMode {
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        armServo.setPosition(0.8);
+        armServo.setPosition(0.1);
 
 
 
@@ -236,15 +235,15 @@ public class AutoRedNoMovement extends LinearVisionOpMode {
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error) / 400 + 0.05));
-                rightDrive.setPower(((error) / 400) + 0.05);
+                leftDrive.setPower(-((error) / 350 + 0.1));
+                rightDrive.setPower(((error) / 350) + 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             }
             else if (degrees < 0) {
-                leftDrive.setPower(-((error) / 400 - 0.05));
-                rightDrive.setPower(((error) / 400) - 0.05);
+                leftDrive.setPower(-((error) / 350 - 0.1));
+                rightDrive.setPower(((error) / 350) - 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();

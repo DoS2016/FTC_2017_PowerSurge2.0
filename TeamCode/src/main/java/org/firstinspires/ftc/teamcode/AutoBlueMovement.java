@@ -42,6 +42,7 @@ public class AutoBlueMovement extends LinearVisionOpMode {
 
     // State used for updating telemetry
     //Acceleration gravity  = imu.getGravity();
+
 //****** Initialize vuforia vision code.
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
@@ -146,17 +147,7 @@ public class AutoBlueMovement extends LinearVisionOpMode {
 
         waitForStart();
 
-        while (opModeIsActive() && ((jewelLRedCounter < 200) && (jewelLBlueCounter < 200))) {
-            //Log a few things
- /*               telemetry.addData("Beacon Color", beacon.getAnalysis().getColorString());
-                telemetry.addData("Beacon Center", beacon.getAnalysis().getLocationString());
-                telemetry.addData("Beacon Confidence", beacon.getAnalysis().getConfidenceString());
-                telemetry.addData("Beacon Buttons", beacon.getAnalysis().getButtonString());
-                telemetry.addData("Screen Rotation", rotation.getScreenOrientationActual());
-                telemetry.addData("Frame Rate", fps.getFPSString() + " FPS");
-                telemetry.addData("Frame Size", "Width: " + width + " Height: " + height);
-                telemetry.addData("Frame Counter", frameCount);*/
-
+        while (opModeIsActive() && ((jewelLRedCounter < 150) && (jewelLBlueCounter < 150))) {
             if (beacon.getAnalysis().isLeftRed()){
                 jewelLBlueCounter = 0;
                 jewelLRedCounter++;
@@ -198,7 +189,8 @@ public class AutoBlueMovement extends LinearVisionOpMode {
 
         leftServo.setPosition(1);
         rightServo.setPosition(0);
-        Thread.sleep(500);
+        Thread.sleep(200);
+
         if (jewelColor == BLUE_RED){
             turnDegrees(-90, leftDrive, rightDrive);
 
@@ -226,7 +218,7 @@ public class AutoBlueMovement extends LinearVisionOpMode {
         centerDrive.setPower(0);
 
 
-
+        // TODO: 11/11/2017 add code to place block into the correct collumn
     }
 
     String formatAngle(AngleUnit angleUnit, double angle) {
@@ -248,15 +240,15 @@ public class AutoBlueMovement extends LinearVisionOpMode {
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error) / 400 + 0.05));
-                rightDrive.setPower(((error) / 400) + 0.05);
+                leftDrive.setPower(-((error) / 350 + 0.1));
+                rightDrive.setPower(((error) / 350) + 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             }
             else if (degrees < 0) {
-                leftDrive.setPower(-((error) / 400 - 0.05));
-                rightDrive.setPower(((error) / 400) - 0.05);
+                leftDrive.setPower(-((error) / 350 - 0.1));
+                rightDrive.setPower(((error) / 350) - 0.1);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
