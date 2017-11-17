@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="TeleOp Basic")
+@TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
 {
@@ -47,22 +47,25 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
     private DcMotor centerDrive = null;
     private DcMotor liftDrive = null;
+    private DcMotor grabNabberLeft = null;
+    private DcMotor grabNabberRight = null;
     private Servo leftServo = null;
     private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
 
     /*
- * Code to run ONCE when the driver hits INIT
- */
+* Code to run ONCE when the driver hits INIT
+*/
     @Override
     public void init() {
-        // TODO: 11/11/2017 add  code to set the jewelservos to up at the beggining of teleOp
         telemetry.addData("Status", "Initialized");
         //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
+        grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
+        grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
@@ -93,6 +96,9 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void start() {
         runtime.reset();
+
+        armLeftServo.setPosition(0.8);
+        armRightServo.setPosition(0.1);
     }
 
     /*
@@ -100,6 +106,17 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void loop() {
+
+
+        if(gamepad2.y) {
+            grabNabberLeft.setPower(100);
+            grabNabberRight.setPower(-100);
+        }
+
+        if (gamepad2.a) {
+            armLeftServo.setPosition(0.8);
+            armRightServo.setPosition(0.1);
+        }
 
         //forward/backward
         //Bumpers for speedboost/slow mode
@@ -142,8 +159,6 @@ public class BasicOpMode_Iterative extends OpMode
             leftServo.setPosition(1);
             rightServo.setPosition(0);
         }
-
-
         // Show the elapsed game time and wheel power.
     }
     @Override
