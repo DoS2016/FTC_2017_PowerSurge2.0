@@ -57,7 +57,6 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void init() {
-        // TODO: 11/11/2017 add  code to set the jewelservos to up at the beggining of teleOp
         telemetry.addData("Status", "Initialized");
         //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
@@ -101,6 +100,12 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void loop() {
 
+        armLeftServo.setPosition(0.8);
+        armRightServo.setPosition(0.1);
+            armLeftServo.setPosition(0.8);
+            armRightServo.setPosition(0.1);
+        }
+
         //forward/backward
         //Bumpers for speedboost/slow mode
         if (gamepad1.left_bumper){
@@ -142,13 +147,11 @@ public class BasicOpMode_Iterative extends OpMode
                 leftServo.setPosition(1);
                 rightServo.setPosition(0);
             }
-
-
         // Show the elapsed game time and wheel power.
     }
     @Override
     public void stop() {
-        
+
     }
 
 
