@@ -55,7 +55,7 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
-    private DigitalChannel touchSensor = null;
+    //private DigitalChannel touchSensor = null;
 
             /*
      * Code to run ONCE when the driver hits INIT
@@ -75,7 +75,7 @@ public class BasicOpMode_Iterative extends OpMode
         rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
-        touchSensor = hardwareMap.get(DigitalChannel.class, "touch_Sensor");
+        //touchSensor = hardwareMap.get(DigitalChannel.class, "touch_Sensor");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -113,12 +113,11 @@ public class BasicOpMode_Iterative extends OpMode
 
 
         if(gamepad1.x) {
-            /*if(touchSensor.getState()){*/
+            //if(touchSensor.getState()){
                 grabNabberLeft.setPower(100);
 
             grabNabberRight.setPower(-100);
         }
-        //^add a } to re add the touch sensor
         if(gamepad1.b && gamepad1.right_bumper) {
             grabNabberLeft.setPower(-50);
             grabNabberRight.setPower(50);}
