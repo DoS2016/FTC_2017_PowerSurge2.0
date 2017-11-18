@@ -124,9 +124,19 @@ public class BasicOpMode_Iterative extends OpMode
              grabNabberRight.setPower(100);
         }
 
-        if (gamepad2.a) {
+        if (gamepad2.dpad_up) {
             armLeftServo.setPosition(0.8);
-            armRightServo.setPosition(0.1);
+        }
+        if (gamepad2.dpad_left) {
+            armLeftServo.setPosition(.1);
+
+        }
+        if (gamepad2.dpad_down) {
+            armLeftServo.setPosition(0.8);
+        }
+        if (gamepad2.dpad_right) {
+            armLeftServo.setPosition(.1);
+
         }
 
         //forward/backward
