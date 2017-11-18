@@ -104,7 +104,7 @@ public class AutoBlueMovement extends Auto {
 
         centerDrive.setPower(0);
         // TODO: 11/17/2017 get another block from the center
-        
+
 
     }
 
