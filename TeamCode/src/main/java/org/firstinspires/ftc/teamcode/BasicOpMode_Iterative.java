@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -50,11 +51,9 @@ public class BasicOpMode_Iterative extends OpMode
 
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
-<<<<<<< HEAD
+
     //private Servo leftServo = null;
-=======
         //private Servo leftServo = null;
->>>>>>> f84fb6c9513a0308002b36fd0826b3aa9a1bf6b4
     //private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
@@ -114,13 +113,13 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void loop() {
 
-
+/*
         if(gamepad1.x) {
             if(touchSensor.getState()){
                 grabNabberLeft.setPower(100);
 
             grabNabberRight.setPower(-100);
-        }}
+        }}*/
         if(gamepad1.b) {
             grabNabberLeft.setPower(-50);
             grabNabberRight.setPower(50);
