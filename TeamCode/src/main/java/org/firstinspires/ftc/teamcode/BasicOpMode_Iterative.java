@@ -48,16 +48,18 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
     private DcMotor centerDrive = null;
     private DcMotor liftDrive = null;
-    private DcMotor grabNabberLeft = null;
-    private DcMotor grabNabberRight = null;
-    private Servo leftServo = null;
+
+        private DcMotor grabNabberLeft = null;
+        private DcMotor grabNabberRight = null;
+        private Servo leftServo = null;
     private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     private DigitalChannel touchSensor = null;
-    /*
-* Code to run ONCE when the driver hits INIT
-*/
+
+            /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
@@ -113,13 +115,15 @@ public class BasicOpMode_Iterative extends OpMode
         if(gamepad1.x) {
             if(touchSensor.getState()){
                 grabNabberLeft.setPower(100);
-                grabNabberRight.setPower(-100);
-            }}
+
+            grabNabberRight.setPower(-100);
+        }}
         if(gamepad1.b && gamepad1.right_bumper) {
             grabNabberLeft.setPower(-50);
             grabNabberRight.setPower(50);}
         else {grabNabberLeft.setPower(-100);
-            grabNabberRight.setPower(100);
+
+             grabNabberRight.setPower(100);
         }
 
         if (gamepad2.dpad_up) {
