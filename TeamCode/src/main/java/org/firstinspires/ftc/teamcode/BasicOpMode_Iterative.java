@@ -40,14 +40,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
-    {
-        // Declare OpMode members.
+{
+    // Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor centerDrive = null;
     private DcMotor liftDrive = null;
+
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
         private Servo leftServo = null;
@@ -55,6 +56,7 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     private DigitalChannel touchSensor = null;
+
             /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -113,12 +115,14 @@ public class BasicOpMode_Iterative extends OpMode
         if(gamepad1.x) {
             if(touchSensor.getState()){
                 grabNabberLeft.setPower(100);
+
             grabNabberRight.setPower(-100);
         }}
         if(gamepad1.b && gamepad1.right_bumper) {
             grabNabberLeft.setPower(-50);
             grabNabberRight.setPower(50);}
         else {grabNabberLeft.setPower(-100);
+
              grabNabberRight.setPower(100);
         }
 
@@ -140,8 +144,8 @@ public class BasicOpMode_Iterative extends OpMode
         //forward/backward
         //Bumpers for speedboost/slow mode
         if (gamepad1.left_bumper){
-        leftDrive.setPower(-gamepad1.left_stick_y * 1);
-        rightDrive.setPower(gamepad1.left_stick_y * 1);
+            leftDrive.setPower(-gamepad1.left_stick_y * 1);
+            rightDrive.setPower(gamepad1.left_stick_y * 1);
         }
         else if (gamepad1.right_bumper){
             leftDrive.setPower(-gamepad1.left_stick_y * 0.4);
