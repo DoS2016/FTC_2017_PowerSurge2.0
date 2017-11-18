@@ -102,8 +102,8 @@ public class BasicOpMode_Iterative extends OpMode
     public void start() {
         runtime.reset();
 
-        armLeftServo.setPosition(0.8);
-        armRightServo.setPosition(0.1);
+        armLeftServo.setPosition(0.7);
+        armRightServo.setPosition(0.3);
     }
 
     /*
@@ -133,17 +133,17 @@ public class BasicOpMode_Iterative extends OpMode
         }
 
         if (gamepad2.dpad_up) {
-            armLeftServo.setPosition(0.8);
+            armLeftServo.setPosition(0.7);
         }
         if (gamepad2.dpad_left) {
-            armLeftServo.setPosition(.1);
+            armLeftServo.setPosition(0.1);
 
         }
         if (gamepad2.dpad_down) {
-            armLeftServo.setPosition(0.8);
+            armRightServo.setPosition(0.8);
         }
         if (gamepad2.dpad_right) {
-            armLeftServo.setPosition(.1);
+            armRightServo.setPosition(0.3);
 
         }
 
