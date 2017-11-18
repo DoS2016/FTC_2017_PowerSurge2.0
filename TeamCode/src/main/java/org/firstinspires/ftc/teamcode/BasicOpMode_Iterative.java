@@ -110,19 +110,31 @@ public class BasicOpMode_Iterative extends OpMode
     public void loop() {
 
 
-        if(gamepad2.b) {
+        if(gamepad1.x) {
             if(touchSensor.getState()){
                 grabNabberLeft.setPower(100);
                 grabNabberRight.setPower(-100);
             }}
-        if(gamepad2.x) {
-            grabNabberLeft.setPower(-100);
+        if(gamepad1.b && gamepad1.right_bumper) {
+            grabNabberLeft.setPower(-50);
+            grabNabberRight.setPower(50);}
+        else {grabNabberLeft.setPower(-100);
             grabNabberRight.setPower(100);
         }
 
-        if (gamepad2.a) {
+        if (gamepad2.dpad_up) {
             armLeftServo.setPosition(0.8);
-            armRightServo.setPosition(0.1);
+        }
+        if (gamepad2.dpad_left) {
+            armLeftServo.setPosition(.1);
+
+        }
+        if (gamepad2.dpad_down) {
+            armLeftServo.setPosition(0.8);
+        }
+        if (gamepad2.dpad_right) {
+            armLeftServo.setPosition(.1);
+
         }
 
         //forward/backward
@@ -158,14 +170,14 @@ public class BasicOpMode_Iterative extends OpMode
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //code to grab a block
-        if (gamepad1.a) {
+        /*if (gamepad1.a) {
             leftServo.setPosition(0);
             rightServo.setPosition(1);
         }
         else if (gamepad1.x){
-            leftServo.setPosition(1);
-            rightServo.setPosition(0);
-        }
+                leftServo.setPosition(1);
+                rightServo.setPosition(0);
+            }*/
         // Show the elapsed game time and wheel power.
     }
     @Override
