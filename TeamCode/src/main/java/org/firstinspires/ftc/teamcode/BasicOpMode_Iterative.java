@@ -120,8 +120,12 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-100);
         }}*/
         if(gamepad1.b) {
-            grabNabberLeft.setPower(-50);
-            grabNabberRight.setPower(50);
+            grabNabberLeft.setPower(-1);
+            grabNabberRight.setPower(1);
+        }
+        else if(gamepad1.x){
+            grabNabberLeft.setPower(1);
+            grabNabberRight.setPower(-1);
         }
         else{
             grabNabberLeft.setPower(0);
