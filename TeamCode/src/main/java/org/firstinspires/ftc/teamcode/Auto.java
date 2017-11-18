@@ -44,29 +44,38 @@ public abstract class Auto extends LinearVisionOpMode {
     public VuforiaLocalizer vuforia;
     public OpenGLMatrix lastLocation = null;
 
-    public static int frameCount = 0;
+    public int frameCount = 0;
 
-    public static int jewelLRedCounter = 0;
-    public static int jewelLBlueCounter = 0;
-    public static int jewelColor = 0;
-    public static int NO_COLOR = 0;
-    public static int RED_BLUE = 1;
-    public static int BLUE_RED = 2;
+    public int jewelLRedCounter = 0;
+    public int jewelLBlueCounter = 0;
+    public int jewelColor = 0;
+    public int NO_COLOR = 0;
+    public int RED_BLUE = 1;
+    public int BLUE_RED = 2;
 
-    public static DcMotor leftDrive = null;
-    public static DcMotor rightDrive = null;
-    public static DcMotor centerDrive = null;
-    public static DcMotor liftDrive = null;
-    public static Servo leftServo = null;
-    public static Servo rightServo = null;
-    public static Servo armServo = null;
+    //all servo and motors
+    public DcMotor leftDrive = null;
+    public DcMotor rightDrive = null;
+    public DcMotor centerDrive = null;
+    public DcMotor liftDrive = null;
+    public Servo leftServo = null;
+    public Servo rightServo = null;
+    public Servo armServo = null;
+    public DcMotor grabNabberLeft = null;
+    public DcMotor grabNabberRight = null;
 
     public VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
     public VuforiaTrackable relicTemplate = relicTrackables.get(0);
     public RelicRecoveryVuMark target = UNKNOWN;
 
+    //encoder convertions
+    public final int ticksPerRev = 1440;
+    public final double wheelCircumference = 6.28;
 
-    public void turnDegrees(double degrees, DcMotor leftDrive, DcMotor rightDrive) {
+    //this is without any gear reductions.  MAKE SURE TO ACCOUNT FOR THIS!!!
+    public final double revToInches = ticksPerRev*wheelCircumference;
+
+    public void turnDegrees(double degrees) {
 
         double error = 2;
         double degreesIMU = 0;
@@ -163,7 +172,7 @@ public abstract class Auto extends LinearVisionOpMode {
         return jewelColor;
     }
 
-    public void initJewelChecker(){
+    public void initJewelChecker(ScreenOrientation direction){
         this.setCamera(Cameras.PRIMARY);
 
         this.setFrameSize(new Size(900, 900));
@@ -187,7 +196,7 @@ public abstract class Auto extends LinearVisionOpMode {
 
         rotation.setIsUsingSecondaryCamera(false);
         rotation.disableAutoRotate();
-        rotation.setActivityOrientationFixed(ScreenOrientation.PORTRAIT);
+        rotation.setActivityOrientationFixed(direction);
 
 
         cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
@@ -213,6 +222,7 @@ public abstract class Auto extends LinearVisionOpMode {
         }
         return target;
     }
+
     public void initPictoChecker() {
 
         //***********VUFORIA CODE*************
@@ -229,4 +239,36 @@ public abstract class Auto extends LinearVisionOpMode {
 
         relicTrackables.activate();
     }
+
+    public void sideMoveInches(double inches){
+
+        centerDrive.setTargetPosition((int)(inches*revToInches));
+        centerDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        centerDrive.setPower(inches);
+
+        while (centerDrive.isBusy()){
+            //wait until we reach the position
+        }
+        centerDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void moveInches(double inches){
+        leftDrive.setTargetPosition((int)(inches*revToInches));
+        rightDrive.setTargetPosition((int)(inches*revToInches));
+
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftDrive.setPower(inches/10);
+        rightDrive.setPower(inches/10);
+
+        while (leftDrive.isBusy() || rightDrive.isBusy()){
+            //wait until we reach the position
+        }
+
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
 }

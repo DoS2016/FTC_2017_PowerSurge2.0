@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.lasarobotics.vision.util.ScreenOrientation;
+
 @Autonomous(name = "AutoBlueMovement")
 public class AutoBlueMovement extends Auto {
 
@@ -18,6 +21,9 @@ public class AutoBlueMovement extends Auto {
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
         rightServo = hardwareMap.get(Servo.class, "right_servo");
+        grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
+        grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+
 
 
         //Wait for vision to initialize - this should be the first thing you do
@@ -27,7 +33,7 @@ public class AutoBlueMovement extends Auto {
 
         pictoChecker();
 
-        initJewelChecker();
+        initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
 
@@ -44,12 +50,12 @@ public class AutoBlueMovement extends Auto {
         Thread.sleep(200);
 
         if (jewelColor == BLUE_RED){
-            turnDegrees(-90, leftDrive, rightDrive);
+            turnDegrees(-90);
 
 
         }
         else if (jewelColor == RED_BLUE){
-            turnDegrees(90, leftDrive, rightDrive);
+            turnDegrees(90);
         }
 
 
@@ -58,18 +64,48 @@ public class AutoBlueMovement extends Auto {
 
         armServo.setPosition(0.8);
 
-        if (jewelColor == BLUE_RED){
-        centerDrive.setPower(1);
-        }
-        else if (jewelColor == RED_BLUE){
-            centerDrive.setPower(-1);
-        }
 
-        Thread.sleep(1000);
+        if(pictoChecker() == RelicRecoveryVuMark.RIGHT) {
+            if (jewelColor == BLUE_RED) {
+                centerDrive.setPower(1);
+            } else if (jewelColor == RED_BLUE) {
+                centerDrive.setPower(-1);
+            }
+        }
+        else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
+            // TODO: 11/17/2017 need to figure out how many inches to move 
+            if (jewelColor == BLUE_RED) {
+                //sideMoveInches(100);
+                //turnDegrees(90);
+            } else if (jewelColor == RED_BLUE) {
+                //sideMoveInches(-100);
+                //turnDegrees(-90);
+            }
+            //moveInches(10);
+        }
+        else if (pictoChecker() == RelicRecoveryVuMark.LEFT){
+            // TODO: 11/17/2017 need to figure out how many inches to move
+            if (jewelColor == BLUE_RED) {
+                //sideMoveInches(80);
+                //turnDegrees(90);
+            } else if (jewelColor == RED_BLUE) {
+                //sideMoveInches(-80);
+                //turnDegrees(-90);
+            }
+            //moveInches(10);
+        }
+        else{
+            telemetry.addData("value", "was unknown.  Right auto was run automatically");
+            telemetry.update();
+        }
+        grabNabberRight.setPower(0.5);
+        grabNabberLeft.setPower(-0.5);
+        Thread.sleep(300);
+
         centerDrive.setPower(0);
+        // TODO: 11/17/2017 get another block from the center
+        
 
-
-        // TODO: 11/11/2017 add code to place block into the correct collumn
     }
 
 
