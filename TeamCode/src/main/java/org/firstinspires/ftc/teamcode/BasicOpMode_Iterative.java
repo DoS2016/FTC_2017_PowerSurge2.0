@@ -111,10 +111,11 @@ public class BasicOpMode_Iterative extends OpMode
 
 
         if(gamepad1.x) {
-            if(touchSensor.getState()){
+            /*if(touchSensor.getState()){*/
                 grabNabberLeft.setPower(100);
             grabNabberRight.setPower(-100);
-        }}
+        }
+        //^add a } to re add the touch sensor
         if(gamepad1.b && gamepad1.right_bumper) {
             grabNabberLeft.setPower(-50);
             grabNabberRight.setPower(50);}
