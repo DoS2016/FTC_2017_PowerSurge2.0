@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -51,8 +50,8 @@ public class BasicOpMode_Iterative extends OpMode
 
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
-        private Servo leftServo = null;
-    private Servo rightServo = null;
+    //private Servo leftServo = null;
+    //private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     //private DigitalChannel touchSensor = null;
@@ -71,8 +70,8 @@ public class BasicOpMode_Iterative extends OpMode
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
-        leftServo = hardwareMap.get(Servo.class, "left_servo");
-        rightServo = hardwareMap.get(Servo.class, "right_servo");
+        //leftServo = hardwareMap.get(Servo.class, "left_servo");
+        //rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
         //touchSensor = hardwareMap.get(DigitalChannel.class, "touch_Sensor");
