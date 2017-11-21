@@ -56,6 +56,7 @@ public class BasicOpMode_Iterative extends OpMode
     //private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
+    private Servo kicker = null;
    // private DigitalChannel touchSensor = null;
 
             /*
@@ -70,6 +71,7 @@ public class BasicOpMode_Iterative extends OpMode
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+        kicker = hardwareMap.get(Servo.class, "kicker");
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         //leftServo = hardwareMap.get(Servo.class, "left_servo");
@@ -128,10 +130,13 @@ public class BasicOpMode_Iterative extends OpMode
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
+            kicker.setPosition(0.5);
+
         }
         else{
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
+            kicker.setPosition(0);
         }
 
         if (gamepad2.dpad_up) {
