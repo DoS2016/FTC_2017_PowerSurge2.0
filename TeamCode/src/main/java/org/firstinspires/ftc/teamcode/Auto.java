@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -32,7 +31,6 @@ import java.util.Locale;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.UNKNOWN;
 
 /**
  * Created by main2 on 11/17/2017.
@@ -41,8 +39,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 public abstract class Auto extends LinearVisionOpMode {
     BNO055IMU imu;
 
-    public VuforiaLocalizer vuforia;
-    public OpenGLMatrix lastLocation = null;
+    VuforiaLocalizer vuforia;
 
     public int frameCount = 0;
 
@@ -64,9 +61,9 @@ public abstract class Auto extends LinearVisionOpMode {
     public DcMotor grabNabberLeft = null;
     public DcMotor grabNabberRight = null;
 
-    public VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-    public VuforiaTrackable relicTemplate = relicTrackables.get(0);
-    public RelicRecoveryVuMark target = UNKNOWN;
+    public VuforiaTrackables relicTrackables = null;
+    public VuforiaTrackable relicTemplate = null;
+    RelicRecoveryVuMark target = RIGHT;
 
     //encoder convertions
     public final int ticksPerRev = 1440;
@@ -203,42 +200,45 @@ public abstract class Auto extends LinearVisionOpMode {
         cameraControl.setAutoExposureCompensation();
     }
 
-    public RelicRecoveryVuMark pictoChecker(){
+    public void pictoChecker(){
+
         while (!opModeIsActive()) {
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark == RIGHT) {
-                telemetry.addData("VuMark", "%s visible", "RIGHT");
-                target = RIGHT;
-            } else if (vuMark == LEFT) {
-                telemetry.addData("VuMark", "%s visible", "LEFT");
-                target = LEFT;
-            } else if (vuMark == CENTER) {
-                telemetry.addData("VuMark", "%s visible", "CENTER");
-                target = CENTER;
-            } else {
-                telemetry.addData("VuMark", "%s visible", "UNKNOWN");
+
+            //***********VUFORIA CODE*************
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+            parameters.vuforiaLicenseKey = " ARP7n43/////AAAAGdGoThGE8k4YowI9EbuCTToRW5VvobacImha3msx7xPnmPUDGiTKRUxcagzehV6BEX4iIdhDpwbWDbKUxKCDvITmAR3E13KNy0uBnk61DpT4IrxJRDbLs3GkrxwSbrCK088QC2XY02KmMxY9kKMSNvg0HuNtB8IuFyo3wgIdkQhZOsDUpKM210oaIpRzyiz/XPez6hWYlfKJEUSGicvyhj1oR6++ey9mk6zKQDxRnSNJJqr6qTkdzs2aj0dV+7xZRpbFVTPO9Q4i955vzjdmS7Z6+FYVIqy8PGFKyT5YejHg/EYG+AJ4VHggr/+zS8YDZDgPpC0xgvTIh7uDz0idF7u3Jj0o68aPCCnqoGtaogTd ";
+
+            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+            this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+            VuforiaTrackable relicTemplate = relicTrackables.get(0);
+            relicTemplate.setName("relicVuMarkTemplate");
+
+            relicTrackables.activate();
+
+            while (!opModeIsActive()) {
+                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                if (vuMark == RIGHT) {
+                    telemetry.addData("VuMark", "%s visible", "RIGHT");
+                    target = RIGHT;
+                } else if (vuMark == LEFT) {
+                    telemetry.addData("VuMark", "%s visible", "LEFT");
+                    target = LEFT;
+                } else if (vuMark == CENTER) {
+                    telemetry.addData("VuMark", "%s visible", "CENTER");
+                    target = CENTER;
+                } else {
+                    telemetry.addData("VuMark", "%s visible", "UNKNOWN");
+                }
+
             }
-
         }
-        return target;
     }
 
-    public void initPictoChecker() {
 
-        //***********VUFORIA CODE*************
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        parameters.vuforiaLicenseKey = " ARP7n43/////AAAAGdGoThGE8k4YowI9EbuCTToRW5VvobacImha3msx7xPnmPUDGiTKRUxcagzehV6BEX4iIdhDpwbWDbKUxKCDvITmAR3E13KNy0uBnk61DpT4IrxJRDbLs3GkrxwSbrCK088QC2XY02KmMxY9kKMSNvg0HuNtB8IuFyo3wgIdkQhZOsDUpKM210oaIpRzyiz/XPez6hWYlfKJEUSGicvyhj1oR6++ey9mk6zKQDxRnSNJJqr6qTkdzs2aj0dV+7xZRpbFVTPO9Q4i955vzjdmS7Z6+FYVIqy8PGFKyT5YejHg/EYG+AJ4VHggr/+zS8YDZDgPpC0xgvTIh7uDz0idF7u3Jj0o68aPCCnqoGtaogTd ";
-
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-
-        relicTemplate.setName("relicVuMarkTemplate");
-
-        relicTrackables.activate();
-    }
 
     public void sideMoveInches(double inches){
 

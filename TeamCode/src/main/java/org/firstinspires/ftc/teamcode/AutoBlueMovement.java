@@ -4,12 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.lasarobotics.vision.util.ScreenOrientation;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
 @Autonomous(name = "AutoBlueMovement")
 public class AutoBlueMovement extends Auto {
-
 
 
     @Override
@@ -25,14 +27,10 @@ public class AutoBlueMovement extends Auto {
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
 
-
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
-        initPictoChecker();
-
         pictoChecker();
-
         initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
@@ -65,14 +63,14 @@ public class AutoBlueMovement extends Auto {
         armServo.setPosition(0.8);
 
 
-        if(pictoChecker() == RelicRecoveryVuMark.RIGHT) {
+        if(target == RIGHT) {
             if (jewelColor == BLUE_RED) {
                 centerDrive.setPower(1);
             } else if (jewelColor == RED_BLUE) {
                 centerDrive.setPower(-1);
             }
         }
-        else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
+        else if(target == CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
             if (jewelColor == BLUE_RED) {
                 //sideMoveInches(100);
@@ -83,7 +81,7 @@ public class AutoBlueMovement extends Auto {
             }
             //moveInches(10);
         }
-        else if (pictoChecker() == RelicRecoveryVuMark.LEFT){
+        else if (target == LEFT){
             // TODO: 11/17/2017 need to figure out how many inches to move
             if (jewelColor == BLUE_RED) {
                 //sideMoveInches(80);
@@ -97,9 +95,10 @@ public class AutoBlueMovement extends Auto {
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
+            target = RIGHT;
         }
-        grabNabberRight.setPower(0.5);
-        grabNabberLeft.setPower(-0.5);
+//        grabNabberRight.setPower(0.5);
+//        grabNabberLeft.setPower(-0.5);
         Thread.sleep(300);
 
         centerDrive.setPower(0);
@@ -107,6 +106,7 @@ public class AutoBlueMovement extends Auto {
 
 
     }
+
 
 
 
