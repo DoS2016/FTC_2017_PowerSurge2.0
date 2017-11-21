@@ -82,6 +82,8 @@ public class BasicOpMode_Iterative extends OpMode
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        //grabNabberLeft.setPower(0);
+        //grabNabberRight.setPower(0);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -119,11 +121,11 @@ public class BasicOpMode_Iterative extends OpMode
 
             grabNabberRight.setPower(-100);
         }}*/
-        if(gamepad2.b) {
+        if(gamepad1.b) {
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
         }
-        else if(gamepad2.x){
+        else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
         }
