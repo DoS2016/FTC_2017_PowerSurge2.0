@@ -135,17 +135,18 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-1);
 
             kicker.setPosition(0.5);
-            kicker.setPosition(0);
 
 
-           // kicker.setPosition(0.5);
+
+
 
 
         }
         else{
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
-            //kicker.setPosition(0);
+
+            kicker.setPosition(0);
         }
 
         if (gamepad2.dpad_up) {
