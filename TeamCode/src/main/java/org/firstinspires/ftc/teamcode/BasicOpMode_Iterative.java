@@ -59,7 +59,7 @@ public class BasicOpMode_Iterative extends OpMode
     //private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
-    //private Servo kicker = null;
+    private Servo kicker = null;
    // private DigitalChannel touchSensor = null;
 
             /*
@@ -133,13 +133,13 @@ public class BasicOpMode_Iterative extends OpMode
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
-<<<<<<< HEAD
+
             kicker.setPosition(0.5);
             kicker.setPosition(0);
 
-=======
+
            // kicker.setPosition(0.5);
->>>>>>> f715fa6c629365ef42ac8d23bdedcbc381084a53
+
 
         }
         else{
