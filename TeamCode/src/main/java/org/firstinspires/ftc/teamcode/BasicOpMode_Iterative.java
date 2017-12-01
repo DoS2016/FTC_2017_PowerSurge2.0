@@ -36,6 +36,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+import java.util.concurrent.TimeUnit;
+
+
 @TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
@@ -131,6 +134,8 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
             kicker.setPosition(0.5);
+            kicker.setPosition(0);
+
 
         }
         else{
