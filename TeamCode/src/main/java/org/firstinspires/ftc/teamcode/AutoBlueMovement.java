@@ -43,32 +43,42 @@ public class AutoBlueMovement extends Auto {
 
         Thread.sleep(500);
 
-        leftServo.setPosition(1);
-        rightServo.setPosition(0);
-        Thread.sleep(200);
-
         if (jewelColor == BLUE_RED){
-            turnDegrees(-90);
+            turnDegrees(-10);
+            armServo.setPosition(0.8);
+            turnDegrees(10);
+
 
 
         }
         else if (jewelColor == RED_BLUE){
-            turnDegrees(90);
+            turnDegrees(10);
+            armServo.setPosition(0.8);
+            turnDegrees(-10);
+
         }
 
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        armServo.setPosition(0.8);
 
 
         if(target == RIGHT) {
-            if (jewelColor == BLUE_RED) {
-                centerDrive.setPower(1);
-            } else if (jewelColor == RED_BLUE) {
-                centerDrive.setPower(-1);
-            }
+            rightDrive.setPower(0.2);
+            leftDrive.setPower(0.2);
+            Thread.sleep(6000);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            turnDegrees(90);
+            Thread.sleep(2000);
+            rightDrive.setPower(0.2);
+            leftDrive.setPower(0.2);
+            Thread.sleep(1000);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            grabNabberRight.setPower(0.5);
+            grabNabberLeft.setPower(-0.5);
         }
         else if(target == CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
@@ -106,12 +116,6 @@ public class AutoBlueMovement extends Auto {
 
 
     }
-
-
-
-
-
-
 
 }
 
