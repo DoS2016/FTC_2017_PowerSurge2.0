@@ -46,10 +46,13 @@ public class AutoBlueMovement extends Auto {
             turnDegrees(-10);
             armServo.setPosition(0.8);
             turnDegrees(10);
+<<<<<<< HEAD
         leftServo.setPosition(1);
         rightServo.setPosition(0);
         Thread.sleep(200);
             turnDegrees(10);
+=======
+>>>>>>> parent of 5c421b5... broken code
 
         if (jewelColor == BLUE_RED){
             turnDegrees(-90);
@@ -66,6 +69,7 @@ public class AutoBlueMovement extends Auto {
 
         armServo.setPosition(0.8);
 
+
         if(target == RIGHT) {
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
@@ -81,6 +85,7 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
+<<<<<<< HEAD
             Thread.sleep(1000);
             grabNabberRight.setPower(0);
             grabNabberLeft.setPower(0);
@@ -92,6 +97,8 @@ public class AutoBlueMovement extends Auto {
                 centerDrive.setPower(-1);
             }
 
+=======
+>>>>>>> parent of 5c421b5... broken code
         }
         else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
