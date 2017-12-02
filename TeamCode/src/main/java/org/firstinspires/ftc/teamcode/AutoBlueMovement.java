@@ -26,7 +26,6 @@ public class AutoBlueMovement extends Auto {
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
-
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
@@ -44,9 +43,15 @@ public class AutoBlueMovement extends Auto {
         Thread.sleep(500);
 
         if (jewelColor == BLUE_RED){
-            turnDegrees(-10);
+            rightDrive.setPower(0.2);
+            leftDrive.setPower(0.2);
+            Thread.sleep(500);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
             armServo.setPosition(0.8);
-            turnDegrees(10);
+            /*turnDegrees(-10);
+            armServo.setPosition(0.8);
+            turnDegrees(10);*/
 
 
 
@@ -63,15 +68,15 @@ public class AutoBlueMovement extends Auto {
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-
         if(target == RIGHT) {
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
-            Thread.sleep(6000);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+            telemetry.addData("Leftposition", leftDrive.getCurrentPosition());
+            telemetry.addData("RightPosition", rightDrive.getCurrentPosition());
+            telemetry.update();
+            Thread.sleep(3000);
             turnDegrees(90);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
             Thread.sleep(1000);
@@ -79,6 +84,9 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
+            Thread.sleep(1000);
+            grabNabberRight.setPower(0);
+            grabNabberLeft.setPower(0);
         }
         else if(target == CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 

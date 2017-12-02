@@ -85,14 +85,14 @@ public abstract class Auto extends LinearVisionOpMode {
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error) / 330 + 0.15));
-                rightDrive.setPower(((error) / 330) + 0.15);
+                leftDrive.setPower(((error) / 330 + 0.15));
+                rightDrive.setPower(-((error) / 330) + 0.15);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             } else if (degrees < 0) {
-                leftDrive.setPower(-((error) / 330 - 0.15));
-                rightDrive.setPower(((error) / 330) - 0.15);
+                leftDrive.setPower(((error) / 330 - 0.15));
+                rightDrive.setPower(-((error) / 330) - 0.15);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
@@ -246,22 +246,21 @@ public abstract class Auto extends LinearVisionOpMode {
     public void moveStraight(int inches){
         double error = 2;
         double degreesIMU = 0;
-        while (opModeIsActive() && (error < -1 || error > 1)) {
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        while ((leftDrive.getCurrentPosition()*revToInches < inches) && (rightDrive.getCurrentPosition()*revToInches < inches)) {
             Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
             error = 0 - degreesIMU;
-            if ((leftDrive.getCurrentPosition()*revToInches < inches) && (rightDrive.getCurrentPosition()*revToInches < inches)){
-                leftDrive.setPower(0.3 + error/20);
-                rightDrive.setPower(0.3 - error/20);
-            }
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+            leftDrive.setPower(0.5 + error/100);
+            rightDrive.setPower(0.5 - error/100);
+
         }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
 
@@ -278,14 +277,14 @@ public abstract class Auto extends LinearVisionOpMode {
     }
 
     public void moveInches(double inches){
-        leftDrive.setTargetPosition((int)(inches*revToInches));
-        rightDrive.setTargetPosition((int)(inches*revToInches));
-
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftDrive.setPower(0.5);
-        rightDrive.setPower(0.5);
+        leftDrive.setTargetPosition((int)(inches*revToInches));
+        rightDrive.setTargetPosition((int)(inches*revToInches));
+
+        leftDrive.setPower(0.2);
+        rightDrive.setPower(0.2);
 
         while (leftDrive.isBusy() || rightDrive.isBusy()){
             //wait until we reach the position
@@ -293,6 +292,8 @@ public abstract class Auto extends LinearVisionOpMode {
 
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
     }
 
 
