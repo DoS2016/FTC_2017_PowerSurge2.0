@@ -4,14 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.lasarobotics.vision.util.ScreenOrientation;
-
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
 @Autonomous(name = "AutoBlueMovement")
 public class AutoBlueMovement extends Auto {
+
 
 
     @Override
@@ -26,10 +24,18 @@ public class AutoBlueMovement extends Auto {
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
+        initPictoChecker();
+
         pictoChecker();
+
         initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
@@ -42,6 +48,7 @@ public class AutoBlueMovement extends Auto {
 
         Thread.sleep(500);
 
+<<<<<<< HEAD
         if (jewelColor == BLUE_RED){
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
@@ -52,22 +59,28 @@ public class AutoBlueMovement extends Auto {
             /*turnDegrees(-10);
             armServo.setPosition(0.8);
             turnDegrees(10);*/
+=======
+        leftServo.setPosition(1);
+        rightServo.setPosition(0);
+        Thread.sleep(200);
+>>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
 
+        if (jewelColor == BLUE_RED){
+            turnDegrees(-90);
 
 
         }
         else if (jewelColor == RED_BLUE){
-            turnDegrees(10);
-            armServo.setPosition(0.8);
-            turnDegrees(-10);
-
+            turnDegrees(90);
         }
 
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        armServo.setPosition(0.8);
 
+<<<<<<< HEAD
         if(target == RIGHT) {
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
@@ -87,8 +100,17 @@ public class AutoBlueMovement extends Auto {
             Thread.sleep(1000);
             grabNabberRight.setPower(0);
             grabNabberLeft.setPower(0);
+=======
+
+        if(pictoChecker() == RelicRecoveryVuMark.RIGHT) {
+            if (jewelColor == BLUE_RED) {
+                centerDrive.setPower(1);
+            } else if (jewelColor == RED_BLUE) {
+                centerDrive.setPower(-1);
+            }
+>>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
         }
-        else if(target == CENTER){
+        else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
             if (jewelColor == BLUE_RED) {
                 //sideMoveInches(100);
@@ -99,7 +121,7 @@ public class AutoBlueMovement extends Auto {
             }
             //moveInches(10);
         }
-        else if (target == LEFT){
+        else if (pictoChecker() == RelicRecoveryVuMark.LEFT){
             // TODO: 11/17/2017 need to figure out how many inches to move
             if (jewelColor == BLUE_RED) {
                 //sideMoveInches(80);
@@ -113,10 +135,9 @@ public class AutoBlueMovement extends Auto {
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
-            target = RIGHT;
         }
-//        grabNabberRight.setPower(0.5);
-//        grabNabberLeft.setPower(-0.5);
+        grabNabberRight.setPower(0.5);
+        grabNabberLeft.setPower(-0.5);
         Thread.sleep(300);
 
         centerDrive.setPower(0);
@@ -124,6 +145,11 @@ public class AutoBlueMovement extends Auto {
 
 
     }
+
+
+
+
+
 
 }
 
