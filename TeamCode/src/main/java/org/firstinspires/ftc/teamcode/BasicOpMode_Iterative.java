@@ -182,14 +182,22 @@ public class BasicOpMode_Iterative extends OpMode
             rightDrive.setPower(gamepad1.left_stick_y * 0.8);
         }
 
-        int placement = 0;
+        double placement = 0.5;
 
-        if (gamepad2.dpad_) {
-
-
+        if (gamepad2.dpad_left) {
+            placement = placement - 0.1;
         }
-        if (placement >! 1){
 
+        if (gamepad2.dpad_right) {
+            placement = placement + 0.1;
+        }
+
+        if (gamepad2.x) {
+            relicGrabber.setPosition(1);
+        }
+
+        if (placement < 1.1 && placement > -.1){
+            relicRotation.setPosition(placement);
         }
 
         //turn
@@ -205,6 +213,8 @@ public class BasicOpMode_Iterative extends OpMode
 
         relicLift.setPower(gamepad2.right_stick_y);
         telemetry.addData("encoder", relicLift.getCurrentPosition());
+
+        relicGrabber.setPosition(0);
 
 
         //if nothing is happening stop the drives
