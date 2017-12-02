@@ -6,12 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.lasarobotics.vision.util.ScreenOrientation;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
-import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
 @Autonomous(name = "AutoBlueMovement")
 public class AutoBlueMovement extends Auto {
+
 
 
     @Override
@@ -30,7 +29,9 @@ public class AutoBlueMovement extends Auto {
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
+
         pictoChecker();
+
         initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
@@ -42,26 +43,21 @@ public class AutoBlueMovement extends Auto {
         initGyro();
 
         Thread.sleep(500);
-
-        if (jewelColor == BLUE_RED){
+        if (jewelColor == BLUE_RED) {
             turnDegrees(-10);
             armServo.setPosition(0.8);
             turnDegrees(10);
-
-
-
         }
-        else if (jewelColor == RED_BLUE){
+        else if(jewelColor == RED_BLUE){
             turnDegrees(10);
             armServo.setPosition(0.8);
             turnDegrees(-10);
-
         }
 
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        armServo.setPosition(0.8);
 
 
         if(target == RIGHT) {
@@ -79,39 +75,20 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
-        }
-        else if(target == CENTER){
-            // TODO: 11/17/2017 need to figure out how many inches to move 
-            if (jewelColor == BLUE_RED) {
-                //sideMoveInches(100);
-                //turnDegrees(90);
-            } else if (jewelColor == RED_BLUE) {
-                //sideMoveInches(-100);
-                //turnDegrees(-90);
-            }
-            //moveInches(10);
-        }
-        else if (target == LEFT){
-            // TODO: 11/17/2017 need to figure out how many inches to move
-            if (jewelColor == BLUE_RED) {
-                //sideMoveInches(80);
-                //turnDegrees(90);
-            } else if (jewelColor == RED_BLUE) {
-                //sideMoveInches(-80);
-                //turnDegrees(-90);
-            }
-            //moveInches(10);
+            Thread.sleep(1000);
+            grabNabberRight.setPower(0);
+            grabNabberLeft.setPower(0);
+
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
-            target = RIGHT;
         }
-//        grabNabberRight.setPower(0.5);
-//        grabNabberLeft.setPower(-0.5);
+        grabNabberRight.setPower(0.5);
+        grabNabberLeft.setPower(-0.5);
         Thread.sleep(300);
-
-        centerDrive.setPower(0);
+        grabNabberRight.setPower(0);
+        grabNabberLeft.setPower(-0);
         // TODO: 11/17/2017 get another block from the center
 
 

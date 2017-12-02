@@ -36,9 +36,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import java.util.concurrent.TimeUnit;
-
-
 @TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
@@ -77,8 +74,12 @@ public class BasicOpMode_Iterative extends OpMode
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+<<<<<<< HEAD
         relicLift = hardwareMap.get(DcMotor.class, "relic_lift");
         //kicker = hardwareMap.get(Servo.class, "kicker");
+=======
+        kicker = hardwareMap.get(Servo.class, "kicker");
+>>>>>>> 54ee797032ce445604b0dd37d19cdea0a357bf1a
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         //leftServo = hardwareMap.get(Servo.class, "left_servo");
@@ -141,11 +142,7 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-1);
 
             kicker.setPosition(0.5);
-
-
-
-
-
+            kicker.setPosition(0);
 
         }
         else{
