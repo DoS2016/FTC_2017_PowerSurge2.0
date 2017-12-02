@@ -24,19 +24,10 @@ public class AutoBlueMovement extends Auto {
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
-
->>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
-=======
-
->>>>>>> parent of 5c421b5... broken code
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
-        initPictoChecker();
 
         pictoChecker();
 
@@ -51,21 +42,14 @@ public class AutoBlueMovement extends Auto {
         initGyro();
 
         Thread.sleep(500);
-
-<<<<<<< HEAD
         if (jewelColor == BLUE_RED){
             turnDegrees(-10);
             armServo.setPosition(0.8);
-<<<<<<< HEAD
-            turnDegrees(10);*/
-=======
+            turnDegrees(10);
         leftServo.setPosition(1);
         rightServo.setPosition(0);
         Thread.sleep(200);
->>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
-=======
             turnDegrees(10);
->>>>>>> parent of 5c421b5... broken code
 
         if (jewelColor == BLUE_RED){
             turnDegrees(-90);
@@ -82,11 +66,6 @@ public class AutoBlueMovement extends Auto {
 
         armServo.setPosition(0.8);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 5c421b5... broken code
         if(target == RIGHT) {
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
@@ -102,21 +81,17 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
-<<<<<<< HEAD
             Thread.sleep(1000);
             grabNabberRight.setPower(0);
             grabNabberLeft.setPower(0);
-=======
 
-        if(pictoChecker() == RelicRecoveryVuMark.RIGHT) {
+        if(t == RelicRecoveryVuMark.RIGHT) {
             if (jewelColor == BLUE_RED) {
                 centerDrive.setPower(1);
             } else if (jewelColor == RED_BLUE) {
                 centerDrive.setPower(-1);
             }
->>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
-=======
->>>>>>> parent of 5c421b5... broken code
+
         }
         else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
