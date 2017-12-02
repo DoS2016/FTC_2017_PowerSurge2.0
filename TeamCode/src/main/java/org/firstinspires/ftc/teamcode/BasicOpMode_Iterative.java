@@ -104,6 +104,9 @@ public class BasicOpMode_Iterative extends OpMode
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
+
+    double placement = 0.5;
+
     @Override
     public void init_loop() {
 
@@ -182,13 +185,13 @@ public class BasicOpMode_Iterative extends OpMode
             rightDrive.setPower(gamepad1.left_stick_y * 0.8);
         }
 
-        double placement = 0.5;
 
-        if (gamepad2.dpad_left) {
+
+        if (gamepad2.dpad_left && placement > 0) {
             placement = placement - 0.1;
         }
 
-        if (gamepad2.dpad_right) {
+        if (gamepad2.dpad_right && placement < 1) {
             placement = placement + 0.1;
         }
 
