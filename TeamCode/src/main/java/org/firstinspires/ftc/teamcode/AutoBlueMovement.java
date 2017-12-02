@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.lasarobotics.vision.util.ScreenOrientation;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
 @Autonomous(name = "AutoBlueMovement")
 public class AutoBlueMovement extends Auto {
@@ -42,27 +43,16 @@ public class AutoBlueMovement extends Auto {
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED){
+        if (jewelColor == BLUE_RED) {
             turnDegrees(-10);
             armServo.setPosition(0.8);
             turnDegrees(10);
-<<<<<<< HEAD
-        leftServo.setPosition(1);
-        rightServo.setPosition(0);
-        Thread.sleep(200);
+        }
+        else if(jewelColor == RED_BLUE){
             turnDegrees(10);
-=======
->>>>>>> parent of 5c421b5... broken code
-
-        if (jewelColor == BLUE_RED){
-            turnDegrees(-90);
-
-
+            armServo.setPosition(0.8);
+            turnDegrees(-10);
         }
-        else if (jewelColor == RED_BLUE){
-            turnDegrees(90);
-        }
-
 
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -85,42 +75,10 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
-<<<<<<< HEAD
             Thread.sleep(1000);
             grabNabberRight.setPower(0);
             grabNabberLeft.setPower(0);
 
-        if(t == RelicRecoveryVuMark.RIGHT) {
-            if (jewelColor == BLUE_RED) {
-                centerDrive.setPower(1);
-            } else if (jewelColor == RED_BLUE) {
-                centerDrive.setPower(-1);
-            }
-
-=======
->>>>>>> parent of 5c421b5... broken code
-        }
-        else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
-            // TODO: 11/17/2017 need to figure out how many inches to move 
-            if (jewelColor == BLUE_RED) {
-                //sideMoveInches(100);
-                //turnDegrees(90);
-            } else if (jewelColor == RED_BLUE) {
-                //sideMoveInches(-100);
-                //turnDegrees(-90);
-            }
-            //moveInches(10);
-        }
-        else if (pictoChecker() == RelicRecoveryVuMark.LEFT){
-            // TODO: 11/17/2017 need to figure out how many inches to move
-            if (jewelColor == BLUE_RED) {
-                //sideMoveInches(80);
-                //turnDegrees(90);
-            } else if (jewelColor == RED_BLUE) {
-                //sideMoveInches(-80);
-                //turnDegrees(-90);
-            }
-            //moveInches(10);
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
@@ -129,17 +87,12 @@ public class AutoBlueMovement extends Auto {
         grabNabberRight.setPower(0.5);
         grabNabberLeft.setPower(-0.5);
         Thread.sleep(300);
-
-        centerDrive.setPower(0);
+        grabNabberRight.setPower(0);
+        grabNabberLeft.setPower(-0);
         // TODO: 11/17/2017 get another block from the center
 
 
     }
-
-
-
-
-
 
 }
 

@@ -36,9 +36,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import java.util.concurrent.TimeUnit;
-
-
 @TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
@@ -133,29 +130,9 @@ public class BasicOpMode_Iterative extends OpMode
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
-<<<<<<< HEAD
-            kicker.setPosition(0.5);
-            kicker.setPosition(0);
-
-<<<<<<< HEAD
-            kicker.setPosition(0.5);
-            kicker.setPosition(0);
 
             kicker.setPosition(0.5);
             kicker.setPosition(0);
-
-
-            kicker.setPosition(0.5);
-
-
-
-
-
-=======
-=======
-           // kicker.setPosition(0.5);
->>>>>>> f715fa6c629365ef42ac8d23bdedcbc381084a53
->>>>>>> parent of 5c421b5... broken code
 
         }
         else{
