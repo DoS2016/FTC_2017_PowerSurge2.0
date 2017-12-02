@@ -25,10 +25,14 @@ public class AutoBlueMovement extends Auto {
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
 >>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
+=======
+
+>>>>>>> parent of 5c421b5... broken code
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
@@ -50,20 +54,18 @@ public class AutoBlueMovement extends Auto {
 
 <<<<<<< HEAD
         if (jewelColor == BLUE_RED){
-            rightDrive.setPower(0.2);
-            leftDrive.setPower(0.2);
-            Thread.sleep(500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+            turnDegrees(-10);
             armServo.setPosition(0.8);
-            /*turnDegrees(-10);
-            armServo.setPosition(0.8);
+<<<<<<< HEAD
             turnDegrees(10);*/
 =======
         leftServo.setPosition(1);
         rightServo.setPosition(0);
         Thread.sleep(200);
 >>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
+=======
+            turnDegrees(10);
+>>>>>>> parent of 5c421b5... broken code
 
         if (jewelColor == BLUE_RED){
             turnDegrees(-90);
@@ -81,15 +83,18 @@ public class AutoBlueMovement extends Auto {
         armServo.setPosition(0.8);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 5c421b5... broken code
         if(target == RIGHT) {
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
-            telemetry.addData("Leftposition", leftDrive.getCurrentPosition());
-            telemetry.addData("RightPosition", rightDrive.getCurrentPosition());
-            telemetry.update();
-            Thread.sleep(3000);
+            Thread.sleep(6000);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
             turnDegrees(90);
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             rightDrive.setPower(0.2);
             leftDrive.setPower(0.2);
             Thread.sleep(1000);
@@ -97,6 +102,7 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
             grabNabberRight.setPower(0.5);
             grabNabberLeft.setPower(-0.5);
+<<<<<<< HEAD
             Thread.sleep(1000);
             grabNabberRight.setPower(0);
             grabNabberLeft.setPower(0);
@@ -109,6 +115,8 @@ public class AutoBlueMovement extends Auto {
                 centerDrive.setPower(-1);
             }
 >>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
+=======
+>>>>>>> parent of 5c421b5... broken code
         }
         else if(pictoChecker() == RelicRecoveryVuMark.CENTER){
             // TODO: 11/17/2017 need to figure out how many inches to move 
