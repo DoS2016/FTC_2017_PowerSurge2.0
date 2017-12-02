@@ -36,9 +36,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-import java.util.concurrent.TimeUnit;
-
-
 @TeleOp(name = "TeleOp Basic")
 
 public class BasicOpMode_Iterative extends OpMode
@@ -133,21 +130,15 @@ public class BasicOpMode_Iterative extends OpMode
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            kicker.setPosition(0.5);
-            kicker.setPosition(0);
->>>>>>> parent of 098eaee... Merge branch 'teleOp_Luke' of https://github.com/DoS2016/FTC_2017_PowerSurge2.0 into teleOp_Luke
-=======
-            kicker.setPosition(0.5);
-            kicker.setPosition(0);
->>>>>>> parent of 5c421b5... broken code
-=======
 
             kicker.setPosition(0.5);
->>>>>>> 89d44f32367d1572af577eebfcba7d9231873419
+            kicker.setPosition(0);
+
+            kicker.setPosition(0.5);
+            kicker.setPosition(0);
+
+
+            kicker.setPosition(0.5);
 
 
 
@@ -158,10 +149,7 @@ public class BasicOpMode_Iterative extends OpMode
         else{
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
-<<<<<<< HEAD
-=======
 
->>>>>>> 89d44f32367d1572af577eebfcba7d9231873419
             kicker.setPosition(0);
         }
 
