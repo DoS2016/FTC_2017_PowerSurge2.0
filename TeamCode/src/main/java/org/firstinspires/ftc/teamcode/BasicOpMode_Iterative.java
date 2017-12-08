@@ -187,7 +187,7 @@ public class BasicOpMode_Iterative extends OpMode
 
 
 
-        if (gamepad2.dpad_left && placement > 0) {
+/*        if (gamepad2.dpad_left && placement > 0) {
             placement = placement - 0.1;
         }
 
@@ -206,7 +206,7 @@ public class BasicOpMode_Iterative extends OpMode
         if (placement < 1.1 && placement > -.1){
             relicRotation.setPosition(placement);
         }
-
+*/
         //turn
         leftDrive.setPower(gamepad1.right_stick_x * 0.8);
         rightDrive.setPower(gamepad1.right_stick_x * 0.8);
