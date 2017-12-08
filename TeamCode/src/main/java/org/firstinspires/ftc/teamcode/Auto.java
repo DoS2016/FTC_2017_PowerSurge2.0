@@ -38,7 +38,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 
 public abstract class Auto extends LinearVisionOpMode {
     BNO055IMU imu;
-
+    long timer = 0;
     VuforiaLocalizer vuforia;
 
     public int frameCount = 0;
@@ -70,14 +70,14 @@ public abstract class Auto extends LinearVisionOpMode {
     public final double wheelCircumference = 6.28;
 
     //this is without any gear reductions.  MAKE SURE TO ACCOUNT FOR THIS!!!
-    public final double revToInches = ticksPerRev*wheelCircumference;
+    public final double revToInches = ticksPerRev/wheelCircumference;
 
     public void turnDegrees(double degrees) {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         double error = 2;
-        double degreesIMU = 0;
+        double degreesIMU;
         while (opModeIsActive() && (error < -1 || error > 1)) {
 
             Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -264,7 +264,6 @@ public abstract class Auto extends LinearVisionOpMode {
         }
     }
 
-
     public void sideMoveInches(double inches){
 
         centerDrive.setTargetPosition((int)(inches*revToInches));
@@ -284,8 +283,8 @@ public abstract class Auto extends LinearVisionOpMode {
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftDrive.setPower(0.5);
-        rightDrive.setPower(0.5);
+        leftDrive.setPower(-0.2);
+        rightDrive.setPower(-0.2);
 
         while (leftDrive.isBusy() || rightDrive.isBusy()){
             //wait until we reach the position
@@ -294,6 +293,5 @@ public abstract class Auto extends LinearVisionOpMode {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
 
 }

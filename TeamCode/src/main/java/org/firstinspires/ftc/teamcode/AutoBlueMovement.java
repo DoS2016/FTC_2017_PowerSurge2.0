@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.lasarobotics.vision.util.ScreenOrientation;
 
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.CENTER;
+import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
 @Autonomous(name = "AutoBlueMovement")
@@ -29,7 +31,6 @@ public class AutoBlueMovement extends Auto {
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
 
-
         pictoChecker();
 
         initJewelChecker(ScreenOrientation.PORTRAIT);
@@ -44,41 +45,71 @@ public class AutoBlueMovement extends Auto {
 
         Thread.sleep(500);
         if (jewelColor == BLUE_RED) {
-            turnDegrees(-10);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(400);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
             armServo.setPosition(0.8);
-            turnDegrees(10);
         }
         else if(jewelColor == RED_BLUE){
-            turnDegrees(10);
-            armServo.setPosition(0.8);
             turnDegrees(-10);
+            armServo.setPosition(0.8);
+            turnDegrees(10);
         }
 
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armServo.setPosition(0.8);
 
+        if(jewelColor == BLUE_RED){
+            timer = timer - 400;
+        }
 
         if(target == RIGHT) {
-            rightDrive.setPower(0.2);
-            leftDrive.setPower(0.2);
-            Thread.sleep(6000);
+            timer = 4000;
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
             turnDegrees(90);
-            Thread.sleep(2000);
-            rightDrive.setPower(0.2);
-            leftDrive.setPower(0.2);
-            Thread.sleep(1000);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(500);;
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            grabNabberRight.setPower(0.5);
-            grabNabberLeft.setPower(-0.5);
-            Thread.sleep(1000);
-            grabNabberRight.setPower(0);
-            grabNabberLeft.setPower(0);
-
+        }
+        else if(target == CENTER){
+            timer = 3000;
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(timer);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            turnDegrees(90);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(500);;
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+        }
+        else if(target == LEFT){
+            timer = 2000;
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(timer);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            turnDegrees(90);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(500);;
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
@@ -93,6 +124,7 @@ public class AutoBlueMovement extends Auto {
 
 
     }
+
 
 }
 

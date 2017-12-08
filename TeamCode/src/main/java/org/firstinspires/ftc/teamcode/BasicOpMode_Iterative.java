@@ -180,7 +180,7 @@ public class BasicOpMode_Iterative extends OpMode
         centerDrive.setPower(gamepad1.left_stick_x * 0.8);
 
         //elevator code
-        liftDrive.setPower(gamepad2.left_stick_y);
+        liftDrive.setPower(gamepad2.left_stick_y * 0.8);
         telemetry.addData("encoder", liftDrive.getCurrentPosition());
 
         //if nothing is happening stop the drives
