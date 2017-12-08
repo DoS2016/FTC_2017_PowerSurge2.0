@@ -145,7 +145,6 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-1);
 
             kicker.setPosition(0.5);
-            kicker.setPosition(0);
 
         }
         else{
