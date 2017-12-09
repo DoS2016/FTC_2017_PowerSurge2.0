@@ -47,7 +47,7 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor rightDrive = null;
     private DcMotor centerDrive = null;
     private DcMotor liftDrive = null;
-    private DcMotor relicLift = null;
+    //private DcMotor relicLift = null;
 
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
@@ -58,8 +58,8 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     private Servo kicker = null;
-    private Servo relicRotation = null;
-    private Servo relicGrabber = null;
+    //private Servo relicRotation = null;
+    //private Servo relicGrabber = null;
    // private DigitalChannel touchSensor = null;
 
             /*
@@ -75,9 +75,7 @@ public class BasicOpMode_Iterative extends OpMode
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
-        relicLift = hardwareMap.get(DcMotor.class, "relic_lift");
-        //kicker = hardwareMap.get(Servo.class, "kicker");
-
+        //relicLift = hardwareMap.get(DcMotor.class, "relic_lift");
         kicker = hardwareMap.get(Servo.class, "kicker");
 
 
@@ -86,8 +84,8 @@ public class BasicOpMode_Iterative extends OpMode
         //rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
-        relicRotation = hardwareMap.get(Servo.class, "relic_hight");
-        relicGrabber = hardwareMap.get(Servo.class, "relic_grabber");
+        //relicRotation = hardwareMap.get(Servo.class, "relic_hight");
+        //relicGrabber = hardwareMap.get(Servo.class, "relic_grabber");
         //touchSensor = hardwareMap.get(DigitalChannel.class, "touch_Sensor");
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -118,7 +116,6 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void start() {
         runtime.reset();
-
         armLeftServo.setPosition(0.7);
         armRightServo.setPosition(0.3);
     }
@@ -139,31 +136,30 @@ public class BasicOpMode_Iterative extends OpMode
         if(gamepad1.b) {
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
+            kicker.setPosition(0.5);
         }
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
 
-            kicker.setPosition(0.5);
-            kicker.setPosition(0);
 
         }
         else{
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
 
-            kicker.setPosition(0);
+            kicker.setPosition(1);
         }
 
         if (gamepad2.dpad_up) {
             armLeftServo.setPosition(0.7);
         }
         if (gamepad2.dpad_left) {
-            armLeftServo.setPosition(0.1);
+            armLeftServo.setPosition(0.3);
 
         }
         if (gamepad2.dpad_down) {
-            armRightServo.setPosition(0.8);
+            armRightServo.setPosition(0.7);
         }
         if (gamepad2.dpad_right) {
             armRightServo.setPosition(0.3);
@@ -181,13 +177,13 @@ public class BasicOpMode_Iterative extends OpMode
             rightDrive.setPower(gamepad1.left_stick_y * 0.4);
         }
         else{
-            leftDrive.setPower(-gamepad1.left_stick_y * 0.8);
-            rightDrive.setPower(gamepad1.left_stick_y * 0.8);
+            leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
+            rightDrive.setPower(gamepad1.left_stick_y * 1.3);
         }
 
 
 
-        if (gamepad2.dpad_left && placement > 0) {
+/*        if (gamepad2.dpad_left && placement > 0) {
             placement = placement - 0.1;
         }
 
@@ -205,23 +201,23 @@ public class BasicOpMode_Iterative extends OpMode
 
         if (placement < 1.1 && placement > -.1){
             relicRotation.setPosition(placement);
-        }
+        }*/
 
         //turn
         leftDrive.setPower(gamepad1.right_stick_x * 0.8);
         rightDrive.setPower(gamepad1.right_stick_x * 0.8);
 
         //slide drive
-        centerDrive.setPower(gamepad1.left_stick_x * 0.8);
+        centerDrive.setPower(gamepad1.left_stick_x * -0.8);
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
         telemetry.addData("encoder", liftDrive.getCurrentPosition());
 
-        relicLift.setPower(gamepad2.right_stick_y);
-        telemetry.addData("encoder", relicLift.getCurrentPosition());
+        //relicLift.setPower(gamepad2.right_stick_y);
+        //telemetry.addData("encoder", relicLift.getCurrentPosition());
 
-        relicGrabber.setPosition(0);
+        //relicGrabber.setPosition(0);
 
 
         //if nothing is happening stop the drives
@@ -243,8 +239,6 @@ public class BasicOpMode_Iterative extends OpMode
     }
     @Override
     public void stop() {
-
     }
-
 
 }

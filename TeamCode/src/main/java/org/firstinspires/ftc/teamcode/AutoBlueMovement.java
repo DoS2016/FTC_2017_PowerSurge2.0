@@ -48,14 +48,13 @@ public class AutoBlueMovement extends Auto {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
             armServo.setPosition(0.8);
         }
         else if(jewelColor == RED_BLUE){
-            turnDegrees(-10);
+            turnDegrees(10, 1, 0.1);
             armServo.setPosition(0.8);
-            turnDegrees(10);
+            turnDegrees(-10, 1, 0.1);
+            Thread.sleep(100);
         }
 
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -70,44 +69,44 @@ public class AutoBlueMovement extends Auto {
         }
 
         if(target == RIGHT) {
+            timer = 4500;
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(timer);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            turnDegrees(90, 1, 0.2);
+            rightDrive.setPower(0.4);
+            leftDrive.setPower(0.4);
+            Thread.sleep(1500);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+        }
+        else if(target == CENTER){
             timer = 4000;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(90);
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(500);;
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-        }
-        else if(target == CENTER){
-            timer = 3000;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90);
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(500);;
+            turnDegrees(90, 1, 0.2);
+            rightDrive.setPower(0.4);
+            leftDrive.setPower(0.4);
+            Thread.sleep(1500);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
         }
         else if(target == LEFT){
-            timer = 2000;
+            timer = 2500;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(90);
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(500);;
+            turnDegrees(90, 1, 0.2);
+            rightDrive.setPower(0.4);
+            leftDrive.setPower(0.4);
+            Thread.sleep(1500);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
         }
@@ -115,11 +114,16 @@ public class AutoBlueMovement extends Auto {
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
         }
-        grabNabberRight.setPower(0.5);
-        grabNabberLeft.setPower(-0.5);
-        Thread.sleep(300);
+        grabNabberRight.setPower(1);
+        grabNabberLeft.setPower(-1);
+        Thread.sleep(1000);
+        leftDrive.setPower(-0.3);
+        rightDrive.setPower(-0.3);
+        Thread.sleep(500);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
         grabNabberRight.setPower(0);
-        grabNabberLeft.setPower(-0);
+        grabNabberLeft.setPower(0);
         // TODO: 11/17/2017 get another block from the center
 
 
