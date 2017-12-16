@@ -171,7 +171,7 @@ public class BasicOpMode_Iterative extends OpMode
 
         //forward/backward
         //Bumpers for speedboost/slow mode
-        if (gamepad1.left_bumper){
+/*        if (gamepad1.left_bumper){
             leftDrive.setPower(-gamepad1.left_stick_y * 1);
             rightDrive.setPower(gamepad1.left_stick_y * 1);
         }
@@ -183,7 +183,7 @@ public class BasicOpMode_Iterative extends OpMode
             leftDrive.setPower(-gamepad1.left_stick_y * 0.8);
             rightDrive.setPower(gamepad1.left_stick_y * 0.8);
         }
-
+*/
 
 
 /*        if (gamepad2.dpad_left && placement > 0) {
@@ -207,11 +207,11 @@ public class BasicOpMode_Iterative extends OpMode
         }
 */
         //turn
-        leftDrive.setPower(gamepad1.right_stick_x * 0.8);
-        rightDrive.setPower(gamepad1.right_stick_x * 0.8);
+        leftDrive.setPower(gamepad1.right_stick_x);
+        rightDrive.setPower(gamepad1.right_stick_x);
 
         //slide drive
-        centerDrive.setPower(gamepad1.left_stick_x * 0.8);
+        centerDrive.setPower(gamepad1.left_stick_x);
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
