@@ -52,9 +52,8 @@ public class BasicOpMode_Iterative extends OpMode
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
 
-    //private Servo leftServo = null;
-        //private Servo leftServo = null;
-    //private Servo rightServo = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     private Servo kicker = null;
@@ -82,8 +81,8 @@ public class BasicOpMode_Iterative extends OpMode
 
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
-        //leftServo = hardwareMap.get(Servo.class, "left_servo");
-        //rightServo = hardwareMap.get(Servo.class, "right_servo");
+        leftServo = hardwareMap.get(Servo.class, "left_servo");
+        rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
         //relicRotation = hardwareMap.get(Servo.class, "relic_hight");
@@ -137,12 +136,14 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-100);
         }}*/
         if(gamepad1.b) {
+            leftServo.setPosition(0.5);
+            rightServo.setPosition(0.5);
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
         }
         else if(gamepad1.x){
-            grabNabberLeft.setPower(1);
-            grabNabberRight.setPower(-1);
+            leftServo.setPosition(0);
+            rightServo.setPosition(1);
 
             kicker.setPosition(0.5);
 
@@ -231,15 +232,6 @@ public class BasicOpMode_Iterative extends OpMode
         //brake the elevator
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //code to grab a block
-        /*if (gamepad1.a) {
-            leftServo.setPosition(0);
-            rightServo.setPosition(1);
-        }
-        else if (gamepad1.x){
-                leftServo.setPosition(1);
-                rightServo.setPosition(0);
-            }*/
         // Show the elapsed game time and wheel power.
     }
     @Override
