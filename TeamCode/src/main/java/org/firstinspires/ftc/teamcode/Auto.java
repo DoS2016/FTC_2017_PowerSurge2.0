@@ -57,7 +57,8 @@ public abstract class Auto extends LinearVisionOpMode {
     public DcMotor liftDrive = null;
     public Servo leftServo = null;
     public Servo rightServo = null;
-    public Servo armServo = null;
+    public Servo armServoRed = null;
+    public Servo armServoBlue = null;
     public DcMotor grabNabberLeft = null;
     public DcMotor grabNabberRight = null;
 

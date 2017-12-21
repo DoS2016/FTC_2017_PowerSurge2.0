@@ -19,7 +19,8 @@ public class AutoRedMovement extends Auto {
     public void runOpMode() throws InterruptedException {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        armServo = hardwareMap.get(Servo.class, "arm_servo_red");
+        armServoBlue = hardwareMap.get(Servo.class, "arm_servo_blue");
+        armServoRed = hardwareMap.get(Servo.class, "arm_servo_red");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
@@ -33,27 +34,28 @@ public class AutoRedMovement extends Auto {
 
         pictoChecker();
 
-        initJewelChecker(ScreenOrientation.LANDSCAPE);
+        initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
 
         jewelChecker();
 
-        armServo.setPosition(0.9);
+        armServoBlue.setPosition(0.05);
+
 
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED) {
+        if (jewelColor == RED_BLUE) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
-            armServo.setPosition(0.3);
+            armServoBlue.setPosition(0.8);
         }
-        else if(jewelColor == RED_BLUE){
+        else if(jewelColor == BLUE_RED){
+            turnDegrees(15, 1, 0.2);
+            armServoBlue.setPosition(0.8);
             turnDegrees(-10, 1, 0.1);
-            armServo.setPosition(0.3);
-            turnDegrees(10, 1, 0.1);
             Thread.sleep(100);
         }
 
@@ -62,20 +64,20 @@ public class AutoRedMovement extends Auto {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armServo.setPosition(0.3);
+        armServoBlue.setPosition(0.8);
 
-        if(jewelColor == BLUE_RED){
+        if(jewelColor == RED_BLUE){
             timer = timer - 400;
         }
 
         if(target == RIGHT) {
-            timer = 4500;
+            timer = timer + 3400;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
+            turnDegrees(90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);
@@ -83,13 +85,13 @@ public class AutoRedMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == CENTER){
-            timer = 4000;
+            timer = timer + 2900;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
+            turnDegrees(90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);
@@ -97,13 +99,13 @@ public class AutoRedMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == LEFT){
-            timer = 2500;
+            timer = timer + 2000;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
+            turnDegrees(90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);

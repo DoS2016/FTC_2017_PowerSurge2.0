@@ -10,8 +10,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
-@Autonomous(name = "AutoBlueMovement")
-public class AutoBlueMovement extends Auto {
+@Autonomous(name = "AutoRedMovementBlack")
+public class AutoRedMovementBlack extends Auto {
 
 
 
@@ -41,21 +41,22 @@ public class AutoBlueMovement extends Auto {
         jewelChecker();
 
         armServoBlue.setPosition(0.05);
+        armServoRed.setPosition(0.9);
 
 
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED) {
+        if (jewelColor == RED_BLUE) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
             armServoBlue.setPosition(0.8);
         }
-        else if(jewelColor == RED_BLUE){
-            turnDegrees(15, 1, 0.18);
+        else if(jewelColor == BLUE_RED){
+            turnDegrees(10, 1, 0.1);
             armServoBlue.setPosition(0.8);
-            turnDegrees(-10, 1, 0.1);
+            turnDegrees(0, 1, 0.1);
             Thread.sleep(100);
         }
 
@@ -65,13 +66,14 @@ public class AutoBlueMovement extends Auto {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armServoBlue.setPosition(0.8);
+        armServoRed.setPosition(0.3);
 
-        if(jewelColor == BLUE_RED){
+        if(jewelColor == RED_BLUE){
             timer = timer - 400;
         }
 
         if(target == RIGHT) {
-            timer = timer + 3400;
+            timer = 4500;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
@@ -85,7 +87,7 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == CENTER){
-            timer = timer + 2900;
+            timer = 4000;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
@@ -99,7 +101,7 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == LEFT){
-            timer = timer + 2000;
+            timer = 2500;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);

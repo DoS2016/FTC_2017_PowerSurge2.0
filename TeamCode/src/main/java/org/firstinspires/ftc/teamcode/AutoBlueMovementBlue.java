@@ -10,8 +10,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
-@Autonomous(name = "AutoBlueMovement")
-public class AutoBlueMovement extends Auto {
+@Autonomous(name = "AutoBlueMovementBlue")
+public class AutoBlueMovementBlue extends Auto {
 
 
 
@@ -19,7 +19,6 @@ public class AutoBlueMovement extends Auto {
     public void runOpMode() throws InterruptedException {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        armServoBlue = hardwareMap.get(Servo.class, "arm_servo_blue");
         armServoRed = hardwareMap.get(Servo.class, "arm_servo_red");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
@@ -34,28 +33,29 @@ public class AutoBlueMovement extends Auto {
 
         pictoChecker();
 
-        initJewelChecker(ScreenOrientation.PORTRAIT);
+        initJewelChecker(ScreenOrientation.LANDSCAPE);
 
         waitForStart();
 
         jewelChecker();
 
+        armServoRed.setPosition(0.9);
         armServoBlue.setPosition(0.05);
 
 
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED) {
+        if (jewelColor == RED_BLUE) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
-            armServoBlue.setPosition(0.8);
+            armServoRed.setPosition(0.3);
         }
-        else if(jewelColor == RED_BLUE){
-            turnDegrees(15, 1, 0.18);
-            armServoBlue.setPosition(0.8);
+        else if(jewelColor == BLUE_RED){
             turnDegrees(-10, 1, 0.1);
+            armServoRed.setPosition(0.3);
+            turnDegrees(0, 1, 0.1);
             Thread.sleep(100);
         }
 
@@ -64,20 +64,21 @@ public class AutoBlueMovement extends Auto {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        armServoRed.setPosition(0.3);
         armServoBlue.setPosition(0.8);
 
-        if(jewelColor == BLUE_RED){
+        if(jewelColor == RED_BLUE){
             timer = timer - 400;
         }
 
         if(target == RIGHT) {
-            timer = timer + 3400;
+            timer = 4500;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
+            turnDegrees(-90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);
@@ -85,13 +86,13 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == CENTER){
-            timer = timer + 2900;
+            timer = 4000;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
+            turnDegrees(-90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);
@@ -99,13 +100,13 @@ public class AutoBlueMovement extends Auto {
             leftDrive.setPower(0);
         }
         else if(target == LEFT){
-            timer = timer + 2000;
+            timer = 2500;
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(timer);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
+            turnDegrees(-90, 1, 0.2);
             rightDrive.setPower(0.4);
             leftDrive.setPower(0.4);
             Thread.sleep(1500);

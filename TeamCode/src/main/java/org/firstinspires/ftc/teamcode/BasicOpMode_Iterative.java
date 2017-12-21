@@ -76,7 +76,7 @@ public class BasicOpMode_Iterative extends OpMode
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
         //relicLift = hardwareMap.get(DcMotor.class, "relic_lift");
-        kicker = hardwareMap.get(Servo.class, "kicker");
+        //kicker = hardwareMap.get(Servo.class, "kicker");
 
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
@@ -136,7 +136,7 @@ public class BasicOpMode_Iterative extends OpMode
         if(gamepad1.b) {
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
-            kicker.setPosition(0.5);
+            //kicker.setPosition(0.5);
         }
         else if(gamepad1.x){
             grabNabberLeft.setPower(1);
@@ -148,7 +148,7 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
 
-            kicker.setPosition(1);
+            //kicker.setPosition(1);
         }
 
         if (gamepad2.dpad_up) {
