@@ -10,8 +10,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
-@Autonomous(name = "AutoBlueMovement")
-public class AutoBlueMovement extends Auto {
+@Autonomous(name = "AutoRedMovementBlue")
+public class AutoRedMovementBlue extends Auto {
 
 
 
@@ -46,14 +46,14 @@ public class AutoBlueMovement extends Auto {
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED) {
+        if (jewelColor == RED_BLUE) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
             armServoBlue.setPosition(0.8);
         }
-        else if(jewelColor == RED_BLUE){
-            turnDegrees(15, 1, 0.18);
+        else if(jewelColor == BLUE_RED){
+            turnDegrees(15, 1, 0.2);
             armServoBlue.setPosition(0.8);
             turnDegrees(-10, 1, 0.1);
             Thread.sleep(100);
@@ -66,7 +66,7 @@ public class AutoBlueMovement extends Auto {
 
         armServoBlue.setPosition(0.8);
 
-        if(jewelColor == BLUE_RED){
+        if(jewelColor == RED_BLUE){
             timer = timer - 400;
         }
 

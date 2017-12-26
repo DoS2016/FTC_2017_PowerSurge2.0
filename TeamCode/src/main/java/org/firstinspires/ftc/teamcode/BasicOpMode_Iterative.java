@@ -52,9 +52,8 @@ public class BasicOpMode_Iterative extends OpMode
         private DcMotor grabNabberLeft = null;
         private DcMotor grabNabberRight = null;
 
-    //private Servo leftServo = null;
-        //private Servo leftServo = null;
-    //private Servo rightServo = null;
+    private Servo leftServo = null;
+    private Servo rightServo = null;
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
     private Servo kicker = null;
@@ -80,8 +79,8 @@ public class BasicOpMode_Iterative extends OpMode
 
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
-        //leftServo = hardwareMap.get(Servo.class, "left_servo");
-        //rightServo = hardwareMap.get(Servo.class, "right_servo");
+        leftServo = hardwareMap.get(Servo.class, "left_servo");
+        rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
         //relicRotation = hardwareMap.get(Servo.class, "relic_hight");
@@ -134,14 +133,20 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberRight.setPower(-100);
         }}*/
         if(gamepad1.b) {
+            leftServo.setPosition(0.5);
+            rightServo.setPosition(0.5);
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
             //kicker.setPosition(0.5);
         }
         else if(gamepad1.x){
-            grabNabberLeft.setPower(1);
-            grabNabberRight.setPower(-1);
+            leftServo.setPosition(0);
+            rightServo.setPosition(1);
 
+<<<<<<< HEAD
+=======
+            kicker.setPosition(0.5);
+>>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
 
         }
         else{
@@ -168,17 +173,22 @@ public class BasicOpMode_Iterative extends OpMode
 
         //forward/backward
         //Bumpers for speedboost/slow mode
-        if (gamepad1.left_bumper){
+/*        if (gamepad1.left_bumper){
             leftDrive.setPower(-gamepad1.left_stick_y * 1);
             rightDrive.setPower(gamepad1.left_stick_y * 1);
         }
         else if (gamepad1.right_bumper){
             leftDrive.setPower(-gamepad1.left_stick_y * 0.4);
             rightDrive.setPower(gamepad1.left_stick_y * 0.4);
-        }
+        }*/
         else{
+<<<<<<< HEAD
             leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
             rightDrive.setPower(gamepad1.left_stick_y * 1.3);
+=======
+            leftDrive.setPower(-gamepad1.left_stick_y);
+            rightDrive.setPower(gamepad1.left_stick_y);
+>>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
         }
 
 
@@ -190,6 +200,8 @@ public class BasicOpMode_Iterative extends OpMode
         if (gamepad2.dpad_right && placement < 1) {
             placement = placement + 0.1;
         }
+
+        relicLift.setPower(gamepad2.right_stick_y * 0.8);
 
         if (gamepad2.x) {
             relicGrabber.setPosition(1);
@@ -204,11 +216,15 @@ public class BasicOpMode_Iterative extends OpMode
         }*/
 
         //turn
-        leftDrive.setPower(gamepad1.right_stick_x * 0.8);
-        rightDrive.setPower(gamepad1.right_stick_x * 0.8);
+        leftDrive.setPower(gamepad1.right_stick_x);
+        rightDrive.setPower(gamepad1.right_stick_x);
 
         //slide drive
+<<<<<<< HEAD
         centerDrive.setPower(gamepad1.left_stick_x * -0.8);
+=======
+        centerDrive.setPower(-gamepad1.left_stick_x);
+>>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
@@ -226,15 +242,6 @@ public class BasicOpMode_Iterative extends OpMode
         //brake the elevator
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //code to grab a block
-        /*if (gamepad1.a) {
-            leftServo.setPosition(0);
-            rightServo.setPosition(1);
-        }
-        else if (gamepad1.x){
-                leftServo.setPosition(1);
-                rightServo.setPosition(0);
-            }*/
         // Show the elapsed game time and wheel power.
     }
     @Override
