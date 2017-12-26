@@ -142,10 +142,10 @@ public class BasicOpMode_Iterative extends OpMode
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
 
-<<<<<<< HEAD
-=======
+
+
             kicker.setPosition(0.5);
->>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
+
 
         }
         else{
@@ -181,13 +181,13 @@ public class BasicOpMode_Iterative extends OpMode
             rightDrive.setPower(gamepad1.left_stick_y * 0.4);
         }*/
         else{
-<<<<<<< HEAD
+
             leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
             rightDrive.setPower(gamepad1.left_stick_y * 1.3);
-=======
+
             leftDrive.setPower(-gamepad1.left_stick_y);
             rightDrive.setPower(gamepad1.left_stick_y);
->>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
+
         }
 
 
@@ -219,11 +219,11 @@ public class BasicOpMode_Iterative extends OpMode
         rightDrive.setPower(gamepad1.right_stick_x);
 
         //slide drive
-<<<<<<< HEAD
+
         centerDrive.setPower(gamepad1.left_stick_x * -0.8);
-=======
+
         centerDrive.setPower(-gamepad1.left_stick_x);
->>>>>>> 96fcb79f5526d8a05259c336c63a6dc5928920e0
+
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
