@@ -284,13 +284,14 @@ public abstract class Auto extends LinearVisionOpMode {
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftDrive.setPower(-0.2);
-        rightDrive.setPower(-0.2);
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(0.5);
 
         while (leftDrive.isBusy() || rightDrive.isBusy()){
             //wait until we reach the position
         }
-
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }

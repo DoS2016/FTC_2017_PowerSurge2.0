@@ -19,6 +19,7 @@ public class AutoBlueMovementBlue extends Auto {
     public void runOpMode() throws InterruptedException {
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        armServoBlue = hardwareMap.get(Servo.class, "arm_servo_blue");
         armServoRed = hardwareMap.get(Servo.class, "arm_servo_red");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
@@ -33,29 +34,28 @@ public class AutoBlueMovementBlue extends Auto {
 
         pictoChecker();
 
-        initJewelChecker(ScreenOrientation.LANDSCAPE);
+        initJewelChecker(ScreenOrientation.PORTRAIT);
 
         waitForStart();
 
         jewelChecker();
 
-        armServoRed.setPosition(0.9);
         armServoBlue.setPosition(0.05);
 
 
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == RED_BLUE) {
+        if (jewelColor == BLUE_RED) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(400);
-            armServoRed.setPosition(0.3);
+            armServoBlue.setPosition(0.8);
         }
-        else if(jewelColor == BLUE_RED){
+        else if(jewelColor == RED_BLUE){
+            turnDegrees(15, 1, 0.18);
+            armServoBlue.setPosition(0.8);
             turnDegrees(-10, 1, 0.1);
-            armServoRed.setPosition(0.3);
-            turnDegrees(0, 1, 0.1);
             Thread.sleep(100);
         }
 
@@ -63,55 +63,29 @@ public class AutoBlueMovementBlue extends Auto {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        centerDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armServoRed.setPosition(0.3);
         armServoBlue.setPosition(0.8);
+        leftDrive.setPower(-0.3);
+        rightDrive.setPower(-0.3);
+        Thread.sleep(200);
 
-        if(jewelColor == RED_BLUE){
-            timer = timer - 400;
-        }
 
         if(target == RIGHT) {
-            timer = 4500;
-            rightDrive.setPower(0.3);
+            centerDrive.setPower(0.5);
+            Thread.sleep(500);
+            centerDrive.setPower(0);
             leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
+            rightDrive.setPower(0.3);
+            Thread.sleep(500);
             leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
             rightDrive.setPower(0);
-            leftDrive.setPower(0);
         }
         else if(target == CENTER){
-            timer = 4000;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+
         }
         else if(target == LEFT){
-            timer = 2500;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(-90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
