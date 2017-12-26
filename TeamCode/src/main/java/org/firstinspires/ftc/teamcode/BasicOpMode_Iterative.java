@@ -200,7 +200,7 @@ public class BasicOpMode_Iterative extends OpMode
             relicGrabber.setPosition(1);
         }
 
-        if (gamepad2.b){
+        else if (gamepad2.b){
             relicGrabber.setPosition(0);
         }
 
