@@ -129,7 +129,7 @@ public class AutoBlueNoMovement extends LinearVisionOpMode {
 
             beacon.setAnalysisBounds(new Rectangle(new Point(width, height), width, 500));
 
-            /**
+            /*
              * Set color tolerances
              * 0 is default, -1 is minimum and 1 is maximum tolerance
              */
