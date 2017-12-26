@@ -57,7 +57,8 @@ public abstract class Auto extends LinearVisionOpMode {
     public DcMotor liftDrive = null;
     public Servo leftServo = null;
     public Servo rightServo = null;
-    public Servo armServo = null;
+    public Servo armServoRed = null;
+    public Servo armServoBlue = null;
     public DcMotor grabNabberLeft = null;
     public DcMotor grabNabberRight = null;
 
@@ -72,7 +73,7 @@ public abstract class Auto extends LinearVisionOpMode {
     //this is without any gear reductions.  MAKE SURE TO ACCOUNT FOR THIS!!!
     public final double revToInches = ticksPerRev/wheelCircumference;
 
-    public void turnDegrees(double degrees) {
+    public void turnDegrees(double degrees, double correction, double minPower) {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -85,14 +86,14 @@ public abstract class Auto extends LinearVisionOpMode {
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error) / 330 + 0.15));
-                rightDrive.setPower(((error) / 330) + 0.15);
+                leftDrive.setPower(-((error / (330*correction)) + minPower));
+                rightDrive.setPower((error / (330*correction)) + minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             } else if (degrees < 0) {
-                leftDrive.setPower(-((error) / 330 - 0.15));
-                rightDrive.setPower(((error) / 330) - 0.15);
+                leftDrive.setPower(-((error / (330*correction)) - minPower));
+                rightDrive.setPower((error / (330*correction)) - minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
