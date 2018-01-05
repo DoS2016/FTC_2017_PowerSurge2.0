@@ -163,7 +163,7 @@ public class BasicOpMode_Iterative extends OpMode
         }
 
 
-            leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
+            leftDrive.setPower(gamepad1.left_stick_y * 1.3);
             rightDrive.setPower(gamepad1.left_stick_y * 1.3);
 
 
@@ -193,7 +193,7 @@ public class BasicOpMode_Iterative extends OpMode
 
         //turn
         leftDrive.setPower(gamepad1.right_stick_x);
-        rightDrive.setPower(gamepad1.right_stick_x);
+        rightDrive.setPower(-gamepad1.right_stick_x);
 
         //slide drive
 
