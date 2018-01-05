@@ -102,7 +102,7 @@ public class BasicOpMode_Iterative extends OpMode
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
 
-    double placement = 0.5;
+    //double placement = 0.5;
 
     @Override
     public void init_loop() {
@@ -169,28 +169,24 @@ public class BasicOpMode_Iterative extends OpMode
 
 
 
-        if (gamepad2.dpad_left && placement > 0) {
-            placement = placement - 0.1;
-        }
 
-        if (gamepad2.dpad_right && placement < 1) {
-            placement = placement + 0.1;
-        }
-
-        relicLift.setPower(gamepad2.right_stick_y * 0.8);
-
-        if (gamepad2.x) {
-            relicGrabber.setPosition(1);
-        }
-
-        else if (gamepad2.b){
+        if (gamepad2.x){
             relicGrabber.setPosition(0);
         }
-
-        if (placement < 1.1 && placement > -.1){
-            relicRotation.setPosition(placement);
+<<<<<<< HEAD
+        if (gamepad2.b){
+            relicGrabber.setPosition(0.5);
         }
+        if (gamepad2.a){
+=======
 
+        else if (gamepad2.b){
+>>>>>>> 77001786ced60b5f4548a651e01b6ae010ad9aa6
+            relicGrabber.setPosition(0);
+        }
+        if (gamepad2.y){
+            relicGrabber.setPosition(1);
+        }
         //turn
         leftDrive.setPower(gamepad1.right_stick_x);
         rightDrive.setPower(-gamepad1.right_stick_x);
