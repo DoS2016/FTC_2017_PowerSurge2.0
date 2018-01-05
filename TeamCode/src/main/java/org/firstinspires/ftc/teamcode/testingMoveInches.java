@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by main2 on 12/26/2017.
  */
-
+@Autonomous(name = "MoveInchesTest")
 public class testingMoveInches extends Auto {
 
 
@@ -23,8 +24,16 @@ public class testingMoveInches extends Auto {
         rightServo = hardwareMap.get(Servo.class, "right_servo");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        moveInches(100);
+        waitForStart();
+        while(1 == 1) {
+            telemetry.addData("rightDrive", rightDrive.getCurrentPosition());
+            telemetry.addData("leftDrive", leftDrive.getCurrentPosition());
+            telemetry.update();
+        }
+        //moveInches(20);
+        //Thread.sleep(1000);
     }
 
 }
