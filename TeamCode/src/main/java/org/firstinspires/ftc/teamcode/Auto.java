@@ -278,17 +278,22 @@ public abstract class Auto extends LinearVisionOpMode {
     }
 
     public void moveInches(double inches){
-        leftDrive.setTargetPosition((int)(inches*revToInches));
-        rightDrive.setTargetPosition((int)(inches*revToInches));
+
+        leftDrive.setTargetPosition((int)(inches*90));
+        rightDrive.setTargetPosition((int)(inches*90));
 
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftDrive.setPower(0.5);
-        rightDrive.setPower(0.5);
+        leftDrive.setPower(0.3);
+        rightDrive.setPower(0.3);
 
         while (leftDrive.isBusy() || rightDrive.isBusy()){
             //wait until we reach the position
+            telemetry.addData("rightDrive", rightDrive.getCurrentPosition());
+            telemetry.addData("leftDrive", leftDrive.getCurrentPosition());
+            telemetry.update();
+
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);

@@ -125,14 +125,6 @@ public class BasicOpMode_Iterative extends OpMode
     @Override
     public void loop() {
 
-/*
-        if(gamepad1.x) {
-            if(touchSensor.getState()){
-                grabNabberLeft.setPower(100);
-
-            grabNabberRight.setPower(-100);
-        }}*/
-        //grabnabber type A. start
 
         if(gamepad1.b) {
 
@@ -148,61 +140,27 @@ public class BasicOpMode_Iterative extends OpMode
 
 
         }
-        else{
+        else {
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
 
             //kicker.setPosition(1);
         }
-        //grabnabber type B. start
-
-        /*if(gamepad1.b) {
-
-            grabNabberLeft.setPower(-1);
-            grabNabberRight.setPower(1);
-            //kicker.setPosition(0.5);
-        }
-        else if(gamepad1.x){
-            leftServo.setPosition(1);
-            rightServo.setPosition(0);
-
-
-
-
-        }
-        else{
-            grabNabberLeft.setPower(0);
-            grabNabberRight.setPower(0);
-
-            //kicker.setPosition(1);
-        }
-        */
         //grabnabber code over
-        if (gamepad2.dpad_up) {
+        if (gamepad1.dpad_up) {
             armLeftServo.setPosition(0.7);
         }
-        if (gamepad2.dpad_left) {
+        if (gamepad1.dpad_left) {
             armLeftServo.setPosition(0.3);
 
         }
-        if (gamepad2.dpad_down) {
+        if (gamepad1.dpad_down) {
             armRightServo.setPosition(0.7);
         }
-        if (gamepad2.dpad_right) {
+        if (gamepad1.dpad_right) {
             armRightServo.setPosition(0.3);
 
         }
-
-        //forward/backward
-        //Bumpers for speedboost/slow mode
-/*        if (gamepad1.left_bumper){
-            leftDrive.setPower(-gamepad1.left_stick_y * 1);
-            rightDrive.setPower(gamepad1.left_stick_y * 1);
-        }
-        else if (gamepad1.right_bumper){
-            leftDrive.setPower(-gamepad1.left_stick_y * 0.4);
-            rightDrive.setPower(gamepad1.left_stick_y * 0.4);
-        }*/
 
 
             leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
