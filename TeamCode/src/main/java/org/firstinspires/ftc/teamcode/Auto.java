@@ -61,6 +61,8 @@ public abstract class Auto extends LinearVisionOpMode {
     public Servo armServoBlue = null;
     public DcMotor grabNabberLeft = null;
     public DcMotor grabNabberRight = null;
+    public Servo relicRotation = null;
+    public Servo relicGrabber = null;
 
     public VuforiaTrackables relicTrackables = null;
     public VuforiaTrackable relicTemplate = null;
@@ -269,11 +271,12 @@ public abstract class Auto extends LinearVisionOpMode {
 
         centerDrive.setTargetPosition((int)(inches*revToInches));
         centerDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        centerDrive.setPower(inches);
+        centerDrive.setPower(0.5*(inches/Math.abs(inches)));
 
         while (centerDrive.isBusy()){
             //wait until we reach the position
         }
+        centerDrive.setPower(0);
         centerDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 

@@ -56,7 +56,10 @@ public class AutoRedMovementBlue extends Auto {
             turnDegrees(15, 1, 0.2);
             armServoBlue.setPosition(0.8);
             turnDegrees(-10, 1, 0.1);
-            Thread.sleep(100);
+            turnDegrees(15, 1, 0.18);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(300);
         }
 
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -66,51 +69,16 @@ public class AutoRedMovementBlue extends Auto {
 
         armServoBlue.setPosition(0.8);
 
-        if(jewelColor == RED_BLUE){
-            timer = timer - 400;
-        }
+
 
         if(target == RIGHT) {
-            timer = timer + 3400;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+
         }
         else if(target == CENTER){
-            timer = timer + 2900;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+
         }
         else if(target == LEFT){
-            timer = timer + 2000;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");

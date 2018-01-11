@@ -27,6 +27,8 @@ public class AutoBlueMovementBlack extends Auto {
         rightServo = hardwareMap.get(Servo.class, "right_servo");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
 
         //Wait for vision to initialize - this should be the first thing you do
