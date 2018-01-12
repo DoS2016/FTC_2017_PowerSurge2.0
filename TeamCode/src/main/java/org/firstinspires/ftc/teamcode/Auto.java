@@ -67,13 +67,13 @@ public abstract class Auto extends LinearVisionOpMode {
     public VuforiaTrackables relicTrackables = null;
     public VuforiaTrackable relicTemplate = null;
     RelicRecoveryVuMark target = RIGHT;
+    public final int bluesideRightPos = -1910;
+    public final int blueSideLeftPos = -530;
+    public final int blueSideCenterPos = -1190;
 
     //encoder convertions
-    public final int ticksPerRev = 1440;
-    public final double wheelCircumference = 6.28;
 
     //this is without any gear reductions.  MAKE SURE TO ACCOUNT FOR THIS!!!
-    public final double revToInches = ticksPerRev/wheelCircumference;
 
     public void turnDegrees(double degrees, double correction, double minPower) {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -140,7 +140,7 @@ public abstract class Auto extends LinearVisionOpMode {
     }
 
     public int jewelChecker() throws InterruptedException {
-        while (opModeIsActive() && ((jewelLRedCounter < 200) && (jewelLBlueCounter < 200))) {
+        while (opModeIsActive() && ((jewelLRedCounter < 150) && (jewelLBlueCounter < 150))) {
 
             if (beacon.getAnalysis().isLeftRed()){
                 jewelLBlueCounter = 0;
@@ -246,32 +246,13 @@ public abstract class Auto extends LinearVisionOpMode {
         }
     }
 
-    public void moveStraight(int inches){
-        double error = 2;
-        double degreesIMU = 0;
-        while (opModeIsActive() && (error < -1 || error > 1)) {
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
-            error = 0 - degreesIMU;
-            if ((leftDrive.getCurrentPosition()*revToInches < inches) && (rightDrive.getCurrentPosition()*revToInches < inches)){
-                leftDrive.setPower(0.3 + error/20);
-                rightDrive.setPower(0.3 - error/20);
-            }
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
-    }
 
-    public void sideMoveInches(double inches){
+    public void sideMoveToPos(int pos, double power){
 
-        centerDrive.setTargetPosition((int)(inches*revToInches));
+        centerDrive.setTargetPosition(pos);
         centerDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        centerDrive.setPower(0.5*(inches/Math.abs(inches)));
+        centerDrive.setPower(power);
 
         while (centerDrive.isBusy()){
             //wait until we reach the position
@@ -281,7 +262,7 @@ public abstract class Auto extends LinearVisionOpMode {
     }
 
     public void moveInches(double inches){
-
+        //through trial and error found that it's about 90 ticks per inch
         leftDrive.setTargetPosition((int)(inches*90));
         rightDrive.setTargetPosition((int)(inches*90));
 

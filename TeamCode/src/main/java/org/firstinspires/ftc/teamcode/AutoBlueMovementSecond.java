@@ -50,9 +50,9 @@ public class AutoBlueMovementSecond extends Auto {
 
         Thread.sleep(500);
         if (jewelColor == RED_BLUE) {
-            turnDegrees(-15, 1, 0.18);
+            turnDegrees(15, 1, 0.18);
             armServoBlue.setPosition(0.8);
-            turnDegrees(10, 1, 0.1);
+            turnDegrees(-10, 1, 0.18);
             Thread.sleep(100);
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
@@ -61,39 +61,45 @@ public class AutoBlueMovementSecond extends Auto {
         else if(jewelColor == BLUE_RED){
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
-            Thread.sleep(700);
+            Thread.sleep(1500);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            Thread.sleep(200);
             armServoBlue.setPosition(0.8);
         }
 
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+/*        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        centerDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        centerDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);*/
 
 
         armServoBlue.setPosition(0.8);
-        leftDrive.setPower(-0.2);
-        rightDrive.setPower(-0.2);
-        Thread.sleep(600);
+        leftDrive.setPower(-0.3);
+        rightDrive.setPower(-0.3);
+        Thread.sleep(1000);
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-
+        Thread.sleep(300);
 
         if(target == RIGHT) {
-
+        sideMoveToPos(bluesideRightPos, -0.5);
         }
         else if(target == CENTER){
-
+            sideMoveToPos(blueSideCenterPos, -0.5);
         }
         else if(target == LEFT){
-
+            sideMoveToPos(blueSideLeftPos, -0.5);
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
         }
+        leftDrive.setPower(0.3);
+        rightDrive.setPower(0.3);
+        Thread.sleep(700);
         grabNabberRight.setPower(1);
         grabNabberLeft.setPower(-1);
         Thread.sleep(1000);
