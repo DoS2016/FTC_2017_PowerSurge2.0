@@ -158,13 +158,13 @@ public class BasicOpMode_Iterative extends OpMode {
         }
 
 
-<<<<<<< HEAD
+
         leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
         rightDrive.setPower(gamepad1.left_stick_y * 1.3);
-=======
+
             leftDrive.setPower(gamepad1.left_stick_y * 1.3);
             rightDrive.setPower(gamepad1.left_stick_y * 1.3);
->>>>>>> 9aa997155b443b68d4b0922e4ca43bb87f0d4278
+
 
 
         if (gamepad2.x) {
