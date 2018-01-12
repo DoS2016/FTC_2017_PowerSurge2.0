@@ -38,8 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "TeleOp Basic")
 
-public class BasicOpMode_Iterative extends OpMode
-{
+public class BasicOpMode_Iterative extends OpMode {
     // Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -49,8 +48,8 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor liftDrive = null;
     private DcMotor relicLift = null;
 
-        private DcMotor grabNabberLeft = null;
-        private DcMotor grabNabberRight = null;
+    private DcMotor grabNabberLeft = null;
+    private DcMotor grabNabberRight = null;
 
     private Servo armLeftServo = null;
     private Servo armRightServo = null;
@@ -58,15 +57,16 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo relicGrabber = null;
     private Servo relicRotationReversed = null;
 
-            /*
-     * Code to run ONCE when the driver hits INIT
-     */
+
+    /*
+* Code to run ONCE when the driver hits INIT
+*/
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
 
         //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
@@ -156,52 +156,57 @@ public class BasicOpMode_Iterative extends OpMode
         rightDrive.setPower(-gamepad1.left_stick_y * 1.3);
 
 
+        leftDrive.setPower(gamepad1.left_stick_y * 1.3);
+        rightDrive.setPower(gamepad1.left_stick_y * 1.3);
 
-            if (gamepad2.b) {
-                relicGrabber.setPosition(0.1);
-            }
-            else if (gamepad2.x) {
-                relicGrabber.setPosition(0.9);
-            }
-
-            if (gamepad2.y){
-                relicRotation.setPosition(0);
-                relicRotationReversed.setPosition(1);
-            }
-            else if(gamepad2.a){
-                relicRotation.setPosition(0.8);
-                relicRotationReversed.setPosition(0.2);
-
-            }
-            //turn
-            leftDrive.setPower(gamepad1.right_stick_x);
-            rightDrive.setPower(-gamepad1.right_stick_x);
-
-            //slide drive
-
-            centerDrive.setPower(-gamepad1.left_stick_x);
-
-
-            //elevator code
-            liftDrive.setPower(gamepad2.left_stick_y * 0.8);
-            telemetry.addData("encoder", liftDrive.getCurrentPosition());
-
-            relicLift.setPower(gamepad2.right_stick_y);
-            telemetry.addData("encoder", relicLift.getCurrentPosition());
-
-
-
-            //if nothing is happening stop the drives
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
-            //brake the elevator
-            liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-            // Show the elapsed game time and wheel power.
-        }
-        @Override
-        public void stop () {
+        if (gamepad2.b) {
+            relicGrabber.setPosition(0.1);
+        } else if (gamepad2.x) {
+            relicGrabber.setPosition(0.9);
         }
 
+        if (gamepad2.y) {
+            relicRotation.setPosition(0);
+            relicRotationReversed.setPosition(1);
+        } else if (gamepad2.a) {
+            relicRotation.setPosition(0.8);
+            relicRotationReversed.setPosition(0.2);
+
+        }
+        //turn
+        leftDrive.setPower(gamepad1.right_stick_x);
+        rightDrive.setPower(-gamepad1.right_stick_x);
+
+        //slide drive
+
+
+        centerDrive.setPower(-gamepad1.left_stick_x);
+
+
+        //elevator code
+        liftDrive.setPower(gamepad2.left_stick_y * 0.8);
+        telemetry.addData("encoder", liftDrive.getCurrentPosition());
+
+        relicLift.setPower(gamepad2.right_stick_y);
+        telemetry.addData("encoder", relicLift.getCurrentPosition());
+
+
+        //if nothing is happening stop the drives
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        //brake the elevator
+        liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Show the elapsed game time and wheel power.
     }
 
+    @Override
+    public void stop() {
+    }
+
+
+    // Show the elapsed game time and wheel power.
+
+
+
+}
