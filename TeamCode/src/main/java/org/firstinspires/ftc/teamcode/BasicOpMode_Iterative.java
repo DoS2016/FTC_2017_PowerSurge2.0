@@ -38,8 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "TeleOp Basic")
 
-public class BasicOpMode_Iterative extends OpMode
-{
+public class BasicOpMode_Iterative extends OpMode {
     // Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -49,8 +48,8 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor liftDrive = null;
     private DcMotor relicLift = null;
 
-        private DcMotor grabNabberLeft = null;
-        private DcMotor grabNabberRight = null;
+    private DcMotor grabNabberLeft = null;
+    private DcMotor grabNabberRight = null;
 
     private Servo leftServo = null;
     private Servo rightServo = null;
@@ -59,16 +58,16 @@ public class BasicOpMode_Iterative extends OpMode
     private Servo kicker = null;
     private Servo relicRotation = null;
     private Servo relicGrabber = null;
-   // private DigitalChannel touchSensor = null;
+    // private DigitalChannel touchSensor = null;
 
-            /*
-     * Code to run ONCE when the driver hits INIT
-     */
+    /*
+* Code to run ONCE when the driver hits INIT
+*/
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
         //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         centerDrive = hardwareMap.get(DcMotor.class, "center_drive");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
@@ -126,21 +125,17 @@ public class BasicOpMode_Iterative extends OpMode
     public void loop() {
 
 
-        if(gamepad1.b) {
+        if (gamepad1.b) {
 
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
             //kicker.setPosition(0.5);
-        }
-        else if(gamepad1.x){
+        } else if (gamepad1.x) {
             grabNabberLeft.setPower(1);
             grabNabberRight.setPower(-1);
 
 
-
-
-        }
-        else {
+        } else {
             grabNabberLeft.setPower(0);
             grabNabberRight.setPower(0);
 
@@ -163,28 +158,24 @@ public class BasicOpMode_Iterative extends OpMode
         }
 
 
-            leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
-            rightDrive.setPower(gamepad1.left_stick_y * 1.3);
+        leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
+        rightDrive.setPower(gamepad1.left_stick_y * 1.3);
 
 
-
-
-
-        if (gamepad2.x){
+        if (gamepad2.x) {
             relicGrabber.setPosition(0);
         }
-<<<<<<< HEAD
-        if (gamepad2.b){
+
+        if (gamepad2.b) {
             relicGrabber.setPosition(0.5);
         }
-        if (gamepad2.a){
-=======
+        if (gamepad2.a) {
 
-        else if (gamepad2.b){
->>>>>>> 77001786ced60b5f4548a651e01b6ae010ad9aa6
+        } else if (gamepad2.b) {
+
             relicGrabber.setPosition(0);
         }
-        if (gamepad2.y){
+        if (gamepad2.y) {
             relicGrabber.setPosition(1);
         }
         //turn
@@ -214,6 +205,7 @@ public class BasicOpMode_Iterative extends OpMode
 
         // Show the elapsed game time and wheel power.
     }
+
     @Override
     public void stop() {
     }
