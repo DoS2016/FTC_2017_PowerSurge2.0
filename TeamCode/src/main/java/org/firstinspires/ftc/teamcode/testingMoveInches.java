@@ -27,10 +27,8 @@ public class testingMoveInches extends Auto {
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
-        while(opModeIsActive()) {
-            telemetry.addData("leftDrove", leftDrive.getCurrentPosition());
-            telemetry.update();
-        }
+
+        moveInches(20);
         //moveInches(20);
         //Thread.sleep(1000);
     }

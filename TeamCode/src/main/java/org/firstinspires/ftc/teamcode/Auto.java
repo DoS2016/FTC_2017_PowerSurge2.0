@@ -66,7 +66,7 @@ public abstract class Auto extends LinearVisionOpMode {
 
     public VuforiaTrackables relicTrackables = null;
     public VuforiaTrackable relicTemplate = null;
-    RelicRecoveryVuMark target = RIGHT;
+    RelicRecoveryVuMark target = CENTER;
     public final int bluesideRightPos = -1910;
     public final int blueSideLeftPos = -530;
     public final int blueSideCenterPos = -1190;
@@ -263,8 +263,8 @@ public abstract class Auto extends LinearVisionOpMode {
 
     public void moveInches(double inches){
         //through trial and error found that it's about 90 ticks per inch
-        leftDrive.setTargetPosition((int)(inches*90));
-        rightDrive.setTargetPosition((int)(inches*90));
+        leftDrive.setTargetPosition((int)(inches*90)+ leftDrive.getCurrentPosition());
+        rightDrive.setTargetPosition((int)(inches*90) + rightDrive.getCurrentPosition());
 
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);

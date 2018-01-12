@@ -10,8 +10,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
-@Autonomous(name = "AutoBlueMovementBlack")
-public class AutoBlueMovementBlack extends Auto {
+@Autonomous(name = "AutoRedMovementMiddle")
+public class AutoRedMovementMiddle extends Auto {
 
 
 
@@ -27,9 +27,9 @@ public class AutoBlueMovementBlack extends Auto {
         rightServo = hardwareMap.get(Servo.class, "right_servo");
         grabNabberLeft = hardwareMap.get(DcMotor.class, "grab_nabber_left");
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
+
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
-
 
         //Wait for vision to initialize - this should be the first thing you do
         waitForVisionStart();
@@ -42,78 +42,68 @@ public class AutoBlueMovementBlack extends Auto {
 
         jewelChecker();
 
-        armServoBlue.setPosition(0.05);
+        armServoRed.setPosition(0.9);
 
 
         initGyro();
 
         Thread.sleep(500);
-        if (jewelColor == BLUE_RED) {
+
+        if (jewelColor == RED_BLUE) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
-            Thread.sleep(400);
-            armServoBlue.setPosition(0.8);
+            Thread.sleep(1000);
+            armServoRed.setPosition(0.1);
+            Thread.sleep(500);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            Thread.sleep(200);
+            armServoRed.setPosition(0.1);
         }
-        else if(jewelColor == RED_BLUE){
-            turnDegrees(15, 1, 0.18);
+        else if(jewelColor == BLUE_RED){
+            turnDegrees(-10, 1, 0.18);
             armServoBlue.setPosition(0.8);
-            turnDegrees(-10, 1, 0.1);
+            turnDegrees(10, 1, 0.18);
             Thread.sleep(100);
+            rightDrive.setPower(0.3);
+            leftDrive.setPower(0.3);
+            Thread.sleep(1000);
+            armServoRed.setPosition(0.1);
+            Thread.sleep(500);
+            rightDrive.setPower(0);
+            leftDrive.setPower(0);
+            armServoRed.setPosition(0.1);
         }
 
+        armServoRed.setPosition(0.1);
+        leftDrive.setPower(-0.3);
+        rightDrive.setPower(-0.3);
+        Thread.sleep(1200);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        Thread.sleep(500);
 
-        armServoBlue.setPosition(0.8);
-
-        if(jewelColor == BLUE_RED){
-            timer = timer - 400;
-        }
+        armServoRed.setPosition(0.3);
 
         if(target == RIGHT) {
-            timer = timer + 3400;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+            moveInches(11);
         }
         else if(target == CENTER){
-            timer = timer + 2900;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+            moveInches(17);
+
         }
         else if(target == LEFT){
-            timer = timer + 2000;
-            rightDrive.setPower(0.3);
-            leftDrive.setPower(0.3);
-            Thread.sleep(timer);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
-            turnDegrees(90, 1, 0.2);
-            rightDrive.setPower(0.4);
-            leftDrive.setPower(0.4);
-            Thread.sleep(1500);
-            rightDrive.setPower(0);
-            leftDrive.setPower(0);
+            moveInches(25);
         }
         else{
             telemetry.addData("value", "was unknown.  Right auto was run automatically");
             telemetry.update();
         }
+
+        turnDegrees(-90, 1, 0.2);
+        leftDrive.setPower(0.3);
+        rightDrive.setPower(0.3);
+        Thread.sleep(1000);
         grabNabberRight.setPower(1);
         grabNabberLeft.setPower(-1);
         Thread.sleep(1000);
