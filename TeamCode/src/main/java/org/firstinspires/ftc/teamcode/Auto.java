@@ -143,7 +143,6 @@ public abstract class Auto extends LinearVisionOpMode {
         while (opModeIsActive() && ((jewelLRedCounter < 150) && (jewelLBlueCounter < 150))) {
 
             if (beacon.getAnalysis().isLeftRed()){
-                jewelLBlueCounter = 0;
                 jewelLRedCounter++;
                 jewelColor = RED_BLUE;
                 telemetry.addData("Beacon Color", "RED THEN BLUE");
@@ -151,7 +150,6 @@ public abstract class Auto extends LinearVisionOpMode {
 
             }
             else if (beacon.getAnalysis().isRightRed()) {
-                jewelLRedCounter = 0;
                 jewelLBlueCounter++;
                 jewelColor = BLUE_RED;
                 telemetry.addData("Beacon Color", "BLUE THEN RED");

@@ -36,7 +36,7 @@ public class AutoRedMovementMiddle extends Auto {
 
         pictoChecker();
 
-        initJewelChecker(ScreenOrientation.PORTRAIT);
+        initJewelChecker(ScreenOrientation.LANDSCAPE);
 
         waitForStart();
 
@@ -49,7 +49,7 @@ public class AutoRedMovementMiddle extends Auto {
 
         Thread.sleep(500);
 
-        if (jewelColor == RED_BLUE) {
+        if (jewelColor == BLUE_RED) {
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
             Thread.sleep(1000);
@@ -60,19 +60,17 @@ public class AutoRedMovementMiddle extends Auto {
             Thread.sleep(200);
             armServoRed.setPosition(0.1);
         }
-        else if(jewelColor == BLUE_RED){
+        else if(jewelColor == RED_BLUE){
             turnDegrees(-10, 1, 0.18);
-            armServoBlue.setPosition(0.8);
+            armServoRed.setPosition(0.1);
+            Thread.sleep(200);
             turnDegrees(10, 1, 0.18);
-            Thread.sleep(100);
+            Thread.sleep(200);
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
-            Thread.sleep(1000);
-            armServoRed.setPosition(0.1);
-            Thread.sleep(500);
+            Thread.sleep(1500);
             rightDrive.setPower(0);
             leftDrive.setPower(0);
-            armServoRed.setPosition(0.1);
         }
 
         armServoRed.setPosition(0.1);
