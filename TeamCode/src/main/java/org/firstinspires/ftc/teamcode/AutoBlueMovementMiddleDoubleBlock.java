@@ -10,8 +10,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryV
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.LEFT;
 import static org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark.RIGHT;
 
-@Autonomous(name = "AutoBlueMovementMiddle")
-public class AutoBlueMovementMiddle extends Auto {
+@Autonomous(name = "AutoBlueMovementMiddleDoubleBlock")
+public class AutoBlueMovementMiddleDoubleBlock extends Auto {
 
 
 
@@ -77,7 +77,7 @@ public class AutoBlueMovementMiddle extends Auto {
         Thread.sleep(1200);
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        Thread.sleep(500);
+
 
 
 
@@ -85,7 +85,7 @@ public class AutoBlueMovementMiddle extends Auto {
             moveInches(11);
         }
         else if(target == CENTER){
-            moveInches(17);
+            moveInches(18);
         }
         else if(target == LEFT){
             moveInches(25);
@@ -95,13 +95,52 @@ public class AutoBlueMovementMiddle extends Auto {
             telemetry.update();
         }
 
-        turnDegrees(90, 1, 0.2);
+        turnDegrees(80, 1, 0.2);
         leftDrive.setPower(0.3);
         rightDrive.setPower(0.3);
         Thread.sleep(1000);
         grabNabberRight.setPower(1);
         grabNabberLeft.setPower(-1);
         Thread.sleep(1000);
+        leftDrive.setPower(-0.3);
+        rightDrive.setPower(-0.3);
+        Thread.sleep(1000);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        grabNabberRight.setPower(0);
+        grabNabberLeft.setPower(0);
+
+        Thread.sleep(100);
+        turnDegrees(0, 1, 0.2);
+        turnDegrees(-90, 1, 0.2);
+        moveInches(5);
+        grabNabberRight.setPower(1);
+        grabNabberLeft.setPower(-1);
+        leftDrive.setPower(1);
+        rightDrive.setPower(1);
+        Thread.sleep(600);
+        grabNabberRight.setPower(-1);
+        grabNabberLeft.setPower(1);
+        Thread.sleep(600);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        Thread.sleep(200);
+
+        liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftDrive.setPower(0.8);
+        Thread.sleep(1100);
+        liftDrive.setPower(0);
+        grabNabberRight.setPower(0);
+        grabNabberLeft.setPower(0);
+        turnDegrees(87, 1, 0.2);
+        leftDrive.setPower(0.4);
+        rightDrive.setPower(0.4);
+        Thread.sleep(3000);
+        grabNabberRight.setPower(1);
+        grabNabberLeft.setPower(-1);
+        Thread.sleep(500);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
         leftDrive.setPower(-0.3);
         rightDrive.setPower(-0.3);
         Thread.sleep(500);

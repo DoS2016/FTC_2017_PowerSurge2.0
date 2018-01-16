@@ -66,7 +66,7 @@ public abstract class Auto extends LinearVisionOpMode {
 
     public VuforiaTrackables relicTrackables = null;
     public VuforiaTrackable relicTemplate = null;
-    RelicRecoveryVuMark target = CENTER;
+    RelicRecoveryVuMark target = LEFT;
     public final int bluesideRightPos = -1910;
     public final int blueSideLeftPos = -530;
     public final int blueSideCenterPos = -1190;
@@ -81,32 +81,50 @@ public abstract class Auto extends LinearVisionOpMode {
 
         double error = 2;
         double degreesIMU;
-        while (opModeIsActive() && (error < -1 || error > 1)) {
+        while ((opModeIsActive() && (error < -1 || error > 1))) {
 
             Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error / (330*correction)) + minPower));
-                rightDrive.setPower((error / (330*correction)) + minPower);
+                leftDrive.setPower(-((error / (330 * correction)) + minPower));
+                rightDrive.setPower((error / (330 * correction)) + minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             } else if (degrees < 0) {
-                leftDrive.setPower(-((error / (330*correction)) - minPower));
-                rightDrive.setPower((error / (330*correction)) - minPower);
+                leftDrive.setPower(-((error / (330 * correction)) - minPower));
+                rightDrive.setPower((error / (330 * correction)) - minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
+            } else if (degrees == 0) {
+                if (degreesIMU >= 0) {
+                    leftDrive.setPower(-((error / (330 * correction)) - minPower));
+                    rightDrive.setPower((error / (330 * correction)) - minPower);
+                    telemetry.addData("ERROR", error);
+                    telemetry.addData("IMUDEGREES", degreesIMU);
+                    telemetry.update();
+                } else if (degreesIMU <= 0) {
+                    leftDrive.setPower(-((error / (330 * correction)) + minPower));
+                    rightDrive.setPower((error / (330 * correction)) + minPower);
+                    telemetry.addData("ERROR", error);
+                    telemetry.addData("IMUDEGREES", degreesIMU);
+                    telemetry.update();
+                }
             }
+
         }
+
+
         leftDrive.setPower(0);
         rightDrive.setPower(0);
 
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
+
 
     public void initGyro() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
