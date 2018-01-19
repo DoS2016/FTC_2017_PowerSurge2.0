@@ -51,15 +51,13 @@ public class BasicOpMode_Iterative extends OpMode {
     private DcMotor grabNabberLeft = null;
     private DcMotor grabNabberRight = null;
 
-    private Servo leftServo = null;
-    private Servo rightServo = null;
     private Servo armLeftServo = null;
 
     private Servo armRightServo = null;
-    private Servo kicker = null;
     private Servo relicRotation = null;
     private Servo relicGrabber = null;
-    // private DigitalChannel touchSensor = null;
+    private Servo relicRotationReversed = null;
+
 
     /*
 * Code to run ONCE when the driver hits INIT
@@ -67,6 +65,7 @@ public class BasicOpMode_Iterative extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
+
         //Hardwaremaps for all motors and servos (look on driverstation to see what to call them
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
@@ -75,24 +74,19 @@ public class BasicOpMode_Iterative extends OpMode {
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
 
         relicLift = hardwareMap.get(DcMotor.class, "relic_lift");
-        //kicker = hardwareMap.get(Servo.class, "kicker");
 
 
         liftDrive = hardwareMap.get(DcMotor.class, "lift_drive");
-        leftServo = hardwareMap.get(Servo.class, "left_servo");
-        rightServo = hardwareMap.get(Servo.class, "right_servo");
         armLeftServo = hardwareMap.get(Servo.class, "arm_servo_blue");
         armRightServo = hardwareMap.get(Servo.class, "arm_servo_red");
         relicRotation = hardwareMap.get(Servo.class, "relic_hight");
         relicGrabber = hardwareMap.get(Servo.class, "relic_grabber");
-        //touchSensor = hardwareMap.get(DigitalChannel.class, "touch_Sensor");
+        relicRotationReversed = hardwareMap.get(Servo.class, "relic_reversed_height");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
-        //grabNabberLeft.setPower(0);
-        //grabNabberRight.setPower(0);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -116,6 +110,7 @@ public class BasicOpMode_Iterative extends OpMode {
         runtime.reset();
         armLeftServo.setPosition(0.7);
         armRightServo.setPosition(0.3);
+
     }
 
     /*
@@ -126,7 +121,6 @@ public class BasicOpMode_Iterative extends OpMode {
 
 
         if (gamepad1.b) {
-
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
             //kicker.setPosition(0.5);
@@ -156,55 +150,54 @@ public class BasicOpMode_Iterative extends OpMode {
             armRightServo.setPosition(0.3);
 
         }
+        telemetry.addData("y", gamepad1.left_stick_y);
+        telemetry.addData("x", gamepad1.right_stick_x);
+        telemetry.update();
 
-
-
-        leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
-        rightDrive.setPower(gamepad1.left_stick_y * 1.3);
-
-            leftDrive.setPower(gamepad1.left_stick_y * 1.3);
-            rightDrive.setPower(gamepad1.left_stick_y * 1.3);
-
-
-
-        if (gamepad2.x) {
-            relicGrabber.setPosition(0);
+        if(gamepad1.left_stick_y > 0.05 || gamepad1.left_stick_y < -0.05){
+            leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
+            rightDrive.setPower(-gamepad1.left_stick_y * 1.3);
         }
+
+
+
 
         if (gamepad2.b) {
-            relicGrabber.setPosition(0.5);
+            relicGrabber.setPosition(0.1);
+        } else if (gamepad2.x) {
+            relicGrabber.setPosition(0.9);
         }
-        if (gamepad2.a) {
 
-        } else if (gamepad2.b) {
-
-            relicGrabber.setPosition(0);
-        }
         if (gamepad2.y) {
-            relicGrabber.setPosition(1);
+            relicRotation.setPosition(0);
+            relicRotationReversed.setPosition(1);
+        } else if (gamepad2.a) {
+            relicRotation.setPosition(0.8);
+            relicRotationReversed.setPosition(0.2);
+
         }
         //turn
+        if(gamepad1.right_stick_x > 0.05 || gamepad1.right_stick_x < 0.05){
         leftDrive.setPower(gamepad1.right_stick_x);
         rightDrive.setPower(-gamepad1.right_stick_x);
+        }
 
         //slide drive
+
 
         centerDrive.setPower(-gamepad1.left_stick_x);
 
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
-        telemetry.addData("encoder", liftDrive.getCurrentPosition());
 
-        //relicLift.setPower(gamepad2.right_stick_y);
-        //telemetry.addData("encoder", relicLift.getCurrentPosition());
 
-        //relicGrabber.setPosition(0);
+        relicLift.setPower(gamepad2.right_stick_y);
+
 
 
         //if nothing is happening stop the drives
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+
         //brake the elevator
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -214,5 +207,10 @@ public class BasicOpMode_Iterative extends OpMode {
     @Override
     public void stop() {
     }
+
+
+    // Show the elapsed game time and wheel power.
+
+
 
 }

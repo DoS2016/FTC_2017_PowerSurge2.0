@@ -61,17 +61,19 @@ public abstract class Auto extends LinearVisionOpMode {
     public Servo armServoBlue = null;
     public DcMotor grabNabberLeft = null;
     public DcMotor grabNabberRight = null;
+    public Servo relicRotation = null;
+    public Servo relicGrabber = null;
 
     public VuforiaTrackables relicTrackables = null;
     public VuforiaTrackable relicTemplate = null;
-    RelicRecoveryVuMark target = RIGHT;
+    RelicRecoveryVuMark target = LEFT;
+    public final int bluesideRightPos = -1910;
+    public final int blueSideLeftPos = -530;
+    public final int blueSideCenterPos = -1190;
 
     //encoder convertions
-    public final int ticksPerRev = 1440;
-    public final double wheelCircumference = 6.28;
 
     //this is without any gear reductions.  MAKE SURE TO ACCOUNT FOR THIS!!!
-    public final double revToInches = ticksPerRev/wheelCircumference;
 
     public void turnDegrees(double degrees, double correction, double minPower) {
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -79,32 +81,50 @@ public abstract class Auto extends LinearVisionOpMode {
 
         double error = 2;
         double degreesIMU;
-        while (opModeIsActive() && (error < -1 || error > 1)) {
+        while ((opModeIsActive() && (error < -1 || error > 1))) {
 
             Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
             error = degrees - degreesIMU;
 
             if (degrees > 0) {
-                leftDrive.setPower(-((error / (330*correction)) + minPower));
-                rightDrive.setPower((error / (330*correction)) + minPower);
+                leftDrive.setPower(-((error / (330 * correction)) + minPower));
+                rightDrive.setPower((error / (330 * correction)) + minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
             } else if (degrees < 0) {
-                leftDrive.setPower(-((error / (330*correction)) - minPower));
-                rightDrive.setPower((error / (330*correction)) - minPower);
+                leftDrive.setPower(-((error / (330 * correction)) - minPower));
+                rightDrive.setPower((error / (330 * correction)) - minPower);
                 telemetry.addData("ERROR", error);
                 telemetry.addData("IMUDEGREES", degreesIMU);
                 telemetry.update();
+            } else if (degrees == 0) {
+                if (degreesIMU >= 0) {
+                    leftDrive.setPower(-((error / (330 * correction)) - minPower));
+                    rightDrive.setPower((error / (330 * correction)) - minPower);
+                    telemetry.addData("ERROR", error);
+                    telemetry.addData("IMUDEGREES", degreesIMU);
+                    telemetry.update();
+                } else if (degreesIMU <= 0) {
+                    leftDrive.setPower(-((error / (330 * correction)) + minPower));
+                    rightDrive.setPower((error / (330 * correction)) + minPower);
+                    telemetry.addData("ERROR", error);
+                    telemetry.addData("IMUDEGREES", degreesIMU);
+                    telemetry.update();
+                }
             }
+
         }
+
+
         leftDrive.setPower(0);
         rightDrive.setPower(0);
 
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
+
 
     public void initGyro() {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -138,10 +158,9 @@ public abstract class Auto extends LinearVisionOpMode {
     }
 
     public int jewelChecker() throws InterruptedException {
-        while (opModeIsActive() && ((jewelLRedCounter < 200) && (jewelLBlueCounter < 200))) {
+        while (opModeIsActive() && ((jewelLRedCounter < 150) && (jewelLBlueCounter < 150))) {
 
             if (beacon.getAnalysis().isLeftRed()){
-                jewelLBlueCounter = 0;
                 jewelLRedCounter++;
                 jewelColor = RED_BLUE;
                 telemetry.addData("Beacon Color", "RED THEN BLUE");
@@ -149,7 +168,6 @@ public abstract class Auto extends LinearVisionOpMode {
 
             }
             else if (beacon.getAnalysis().isRightRed()) {
-                jewelLRedCounter = 0;
                 jewelLBlueCounter++;
                 jewelColor = BLUE_RED;
                 telemetry.addData("Beacon Color", "BLUE THEN RED");
@@ -244,43 +262,25 @@ public abstract class Auto extends LinearVisionOpMode {
         }
     }
 
-    public void moveStraight(int inches){
-        double error = 2;
-        double degreesIMU = 0;
-        while (opModeIsActive() && (error < -1 || error > 1)) {
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            degreesIMU = Double.parseDouble(formatAngle(angles.angleUnit, angles.firstAngle));
-            error = 0 - degreesIMU;
-            if ((leftDrive.getCurrentPosition()*revToInches < inches) && (rightDrive.getCurrentPosition()*revToInches < inches)){
-                leftDrive.setPower(0.3 + error/20);
-                rightDrive.setPower(0.3 - error/20);
-            }
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
-    }
 
-    public void sideMoveInches(double inches){
+    public void sideMoveToPos(int pos, double power){
 
-        centerDrive.setTargetPosition((int)(inches*revToInches));
+        centerDrive.setTargetPosition(pos);
         centerDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        centerDrive.setPower(inches);
+        centerDrive.setPower(power);
 
         while (centerDrive.isBusy()){
             //wait until we reach the position
         }
+        centerDrive.setPower(0);
         centerDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void moveInches(double inches){
-
-        leftDrive.setTargetPosition((int)(inches*90));
-        rightDrive.setTargetPosition((int)(inches*90));
+        //through trial and error found that it's about 90 ticks per inch
+        leftDrive.setTargetPosition((int)(inches*90)+ leftDrive.getCurrentPosition());
+        rightDrive.setTargetPosition((int)(inches*90) + rightDrive.getCurrentPosition());
 
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);

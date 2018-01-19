@@ -26,12 +26,10 @@ public class testingMoveInches extends Auto {
         grabNabberRight = hardwareMap.get(DcMotor.class, "grab_nabber_right");
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
+        initGyro();
         waitForStart();
-        while(1 == 1) {
-            telemetry.addData("rightDrive", rightDrive.getCurrentPosition());
-            telemetry.addData("leftDrive", leftDrive.getCurrentPosition());
-            telemetry.update();
-        }
+        leftDrive.setPower(1);
+        rightDrive.setPower(1);
         //moveInches(20);
         //Thread.sleep(1000);
     }
