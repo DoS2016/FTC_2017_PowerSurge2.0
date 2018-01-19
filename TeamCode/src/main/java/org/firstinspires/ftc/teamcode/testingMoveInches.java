@@ -28,10 +28,8 @@ public class testingMoveInches extends Auto {
 
         initGyro();
         waitForStart();
-
-        liftDrive.setPower(0.8);
-        Thread.sleep(500);
-        liftDrive.setPower(0);
+        leftDrive.setPower(1);
+        rightDrive.setPower(1);
         //moveInches(20);
         //Thread.sleep(1000);
     }

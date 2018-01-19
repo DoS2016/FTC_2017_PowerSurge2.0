@@ -110,6 +110,7 @@ public class BasicOpMode_Iterative extends OpMode {
         runtime.reset();
         armLeftServo.setPosition(0.7);
         armRightServo.setPosition(0.3);
+
     }
 
     /*
@@ -120,7 +121,6 @@ public class BasicOpMode_Iterative extends OpMode {
 
 
         if (gamepad1.b) {
-
             grabNabberLeft.setPower(-1);
             grabNabberRight.setPower(1);
             //kicker.setPosition(0.5);
@@ -150,10 +150,15 @@ public class BasicOpMode_Iterative extends OpMode {
             armRightServo.setPosition(0.3);
 
         }
+        telemetry.addData("y", gamepad1.left_stick_y);
+        telemetry.addData("x", gamepad1.right_stick_x);
+        telemetry.update();
 
+        if(gamepad1.left_stick_y > 0.05 || gamepad1.left_stick_y < -0.05){
+            leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
+            rightDrive.setPower(-gamepad1.left_stick_y * 1.3);
+        }
 
-        leftDrive.setPower(-gamepad1.left_stick_y * 2);
-        rightDrive.setPower(-gamepad1.left_stick_y * 2);
 
 
 
@@ -172,8 +177,10 @@ public class BasicOpMode_Iterative extends OpMode {
 
         }
         //turn
+        if(gamepad1.right_stick_x > 0.05 || gamepad1.right_stick_x < 0.05){
         leftDrive.setPower(gamepad1.right_stick_x);
         rightDrive.setPower(-gamepad1.right_stick_x);
+        }
 
         //slide drive
 
@@ -183,15 +190,14 @@ public class BasicOpMode_Iterative extends OpMode {
 
         //elevator code
         liftDrive.setPower(gamepad2.left_stick_y * 0.8);
-        telemetry.addData("encoder", liftDrive.getCurrentPosition());
+
 
         relicLift.setPower(gamepad2.right_stick_y);
-        telemetry.addData("encoder", relicLift.getCurrentPosition());
+
 
 
         //if nothing is happening stop the drives
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+
         //brake the elevator
         liftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
