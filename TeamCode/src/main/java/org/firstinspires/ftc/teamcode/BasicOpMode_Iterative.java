@@ -152,12 +152,10 @@ public class BasicOpMode_Iterative extends OpMode {
         }
 
 
-        leftDrive.setPower(-gamepad1.left_stick_y * 1.3);
-        rightDrive.setPower(-gamepad1.left_stick_y * 1.3);
+        leftDrive.setPower(-gamepad1.left_stick_y * 2);
+        rightDrive.setPower(-gamepad1.left_stick_y * 2);
 
 
-        leftDrive.setPower(gamepad1.left_stick_y * 1.3);
-        rightDrive.setPower(gamepad1.left_stick_y * 1.3);
 
         if (gamepad2.b) {
             relicGrabber.setPosition(0.1);

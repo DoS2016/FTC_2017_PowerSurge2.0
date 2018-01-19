@@ -64,7 +64,7 @@ public class AutoRedMovementMiddle extends Auto {
             turnDegrees(-10, 1, 0.18);
             armServoRed.setPosition(0.1);
             Thread.sleep(200);
-            turnDegrees(10, 1, 0.18);
+            turnDegrees(0, 1, 0.18);
             Thread.sleep(200);
             rightDrive.setPower(0.3);
             leftDrive.setPower(0.3);
