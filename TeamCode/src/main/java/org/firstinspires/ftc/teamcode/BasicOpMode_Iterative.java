@@ -54,6 +54,7 @@ public class BasicOpMode_Iterative extends OpMode {
     private Servo leftServo = null;
     private Servo rightServo = null;
     private Servo armLeftServo = null;
+
     private Servo armRightServo = null;
     private Servo kicker = null;
     private Servo relicRotation = null;
@@ -101,7 +102,6 @@ public class BasicOpMode_Iterative extends OpMode {
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
 
-    //double placement = 0.5;
 
     @Override
     public void init_loop() {
